@@ -10,9 +10,12 @@ jobs:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: cd functions && npm i && npm i -g firebase-tools && firebase deploy --token $FIREBASE_TOKEN --only functions
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: dependencies
+        run: cd functions && npm i
+      - name: deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}"
