@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd functions && npm i && ls -al && pwd && npm i -g firebase-tools && npm run deploy
+      - run: cd functions && npm i && ls -al && pwd && npm i -g firebase-tools && firebase deploy --token "$FIREBASE_TOKEN" --only functions
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
