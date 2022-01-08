@@ -1,0 +1,45 @@
+# @format
+
+name: FILL-IN CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+# jobs 단위로 개별 서버(정확히는 Docker 컨테이너 단위라고 한다.)에서 작업이 수행된다.
+# 각 작업은 병렬로 실행 된다고 하는데, needs: build와 같이 표시해서 기다릴 수도 있다.
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # node-version 과 같이 배열로 돼있으면, 해당 원소를 순회하면서 작업이 반복해서 실행된다.
+    # matrix 때문인지 배열만 되는 것 같다. (TODO)
+    # 응용해서 runs-on에 여러 OS에서 돌릴 수도 있다.
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    # uses 개념은 다른 사람이 작성한 내용을 실행하는 개념이다.
+    # actions/checkout: GitHub의 마지막 커밋으로 Checkout 한다.
+    # actions/setup-node: Node.js를 설치한다.
+    # run 개념은 명령어를 실행한다. 셸 스크립트와 동일하다.
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      # npm ci는 npm install과 같은 기능을 수행한다.
+      - name: ci
+        run: npm ci
+      # --if-present 옵션은 npm 스크립트가 존재할 때만 실행시키라는 의미이다.
+      # 만약 build 스크립트가 없는 경우, 오류 없이 지나간다.
+      # - name: build
+      #   run: npm run build --if-present
+      # - name: lint
+      #   run: npm run lint
+      # - name: test
+      #   run: npm test
