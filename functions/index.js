@@ -14,5 +14,5 @@ if (admin.apps.length === 0) {
 }
 
 module.exports = {
-  api: require('./api'),
+  api: require('./api/v1'),
 };
