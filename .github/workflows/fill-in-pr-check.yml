@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: 🐕 의존성 주입과 eslint를 사용해 코드에 문제가 없는지 확인합니다.
         run: |
-          cd function
+          cd functions
           npm i
           npm run lint
 
