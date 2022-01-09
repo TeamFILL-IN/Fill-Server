@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/', require('./api/routes'));
+app.use('/v1', require('./api/routes'));
 
 app.use('*', (req, res) => {
   res.status(404).json({
@@ -50,7 +50,6 @@ exports.app = functions
     timeoutSeconds: 300, // 요청을 처리하는 과정이 300초를 초과하면 타임아웃 시키기
     memory: '512MB', // 서버에 할당되는 메모리
   })
-  .region('asia-northeast3')
   .https.onRequest(app);
 // exports.app = functions
 //   .runWith({
