@@ -21,7 +21,7 @@ jobs:
         run: |
           cd functions
           npm install
-          npm install firebase-tools
+          npm install -g firebase-tools
       - name: Firebase 배포
         run: |
           cd functions
