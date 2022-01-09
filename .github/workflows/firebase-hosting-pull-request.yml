@@ -30,7 +30,7 @@ jobs:
       - name: Firebase 배포
         run: |
           cd functions
-          firebase deploy --only functions,hosting
+          npm run deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Firebase hosting 배포
