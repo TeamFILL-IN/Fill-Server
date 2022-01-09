@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/v1', require('./api/routes'));
+app.use('/api', require('./api/routes'));
 
 app.use('*', (req, res) => {
   res.status(404).json({
