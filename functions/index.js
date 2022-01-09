@@ -8,9 +8,9 @@ const helmet = require('helmet');
 const admin = require('firebase-admin');
 const serviceAccount = require('./fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json');
 const dotenv = require('dotenv');
-const { fail } = require('../../lib/util');
-const sc = require('../../constants/statusCode');
-const rm = require('../../constants/responseMessage');
+const { fail } = require('./lib/util');
+const sc = require('./constants/statusCode');
+const rm = require('./constants/responseMessage');
 
 dotenv.config();
 
