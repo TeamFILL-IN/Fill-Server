@@ -17,12 +17,20 @@ jobs:
           cd functions
           touch .env
           echo "${{ secrets.ENV_VARS }}" >> .env
-      - name: Firebase Admin JSON 설정
-        run: |
-          cd functions
-          touch fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}" >> fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
-          cat fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+      # - name: Firebase Admin JSON 설정
+      #   run: |
+      #     cd functions
+      #     touch fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+      #     echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}" >> fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+      #     cat fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json"
+          json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}
+          dir: "functions/"
+        run: cat fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
       # - name: 의존성 주입
       #   run: |
       #     cd functions
