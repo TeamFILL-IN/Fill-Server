@@ -10,7 +10,6 @@ name: FILL-IN CI/CD
       - main
 jobs:
   FILL-IN-DEPLOY:
-    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
       - name: ✅ 체크아웃
