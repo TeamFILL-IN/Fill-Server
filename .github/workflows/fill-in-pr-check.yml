@@ -1,0 +1,19 @@
+# @format
+
+name: FILL-IN PR Check
+
+"on": pull_request
+jobs:
+  code_check:
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ 체크아웃 ✅
+        uses: actions/checkout@v2
+      - name: 🌴 의존성 주입 및 eslint 작업 🌴
+        run: |
+          npm i
+          npm run lint
+        env:
+          CI: true

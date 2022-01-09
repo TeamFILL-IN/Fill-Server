@@ -4,38 +4,41 @@
 # https://github.com/firebase/firebase-tools
 
 name: FILL-IN CI/CD
-"on": pull_request
+"on":
+  push:
+    branches:
+      - main
 jobs:
-  build_and_preview:
+  FILL-IN-DEPLOY:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
-      - name: 체크아웃
+      - name: ✅ 체크아웃 ✅
         uses: actions/checkout@v2
-      - name: 환경변수 설정
+      - name: ⚙️ 환경변수 설정 ⚙️
         run: |
           cd functions
           touch .env
           echo "${{ secrets.ENV_VARS }}" >> .env
-      - name: Firebase Admin JSON 설정
+      - name: 🔑 Firebase Admin JSON 설정 🔑
         id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json"
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}
           dir: "functions/"
-      - name: 의존성 주입
+      - name: 🎁 의존성 주입 🎁
         run: |
           cd functions
           npm install
           npm install -g firebase-tools
-      - name: Firebase 배포
+      - name: 📡 Firebase 배포 📡
         run: |
           cd functions
           npm run deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      - name: Firebase hosting 배포
+      - name: ⛓ Firebase hosting 배포 ⛓
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
