@@ -1,0 +1,21 @@
+# @format
+
+name: FILL-IN PR Check
+
+"on": pull_request
+jobs:
+  code_check:
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ 체크아웃
+        uses: actions/checkout@v2
+      - name: 🐕 의존성 주입과 eslint를 사용해 코드에 문제가 없는지 확인합니다.
+        run: |
+          cd functions
+          npm i
+          npm run lint
+
+        env:
+          CI: true
