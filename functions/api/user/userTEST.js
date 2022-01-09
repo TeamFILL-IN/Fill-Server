@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
-const { success, fail } = require('../../../lib/util');
-const sc = require('../../../constants/statusCode');
-const rm = require('../../../constants/responseMessage');
+const { success, fail } = require('../../lib/util');
+const sc = require('../../constants/statusCode');
+const rm = require('../../constants/responseMessage');
 // const db = require('../../../db/db');
 // const { userDB, postDB } = require('../../../db');
 
