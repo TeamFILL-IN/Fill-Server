@@ -30,7 +30,8 @@ jobs:
           name: "fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json"
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}
           dir: "functions/"
-        run: cat fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+
+      - run: cat fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
       # - name: 의존성 주입
       #   run: |
       #     cd functions
