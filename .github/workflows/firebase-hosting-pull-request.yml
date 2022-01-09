@@ -21,7 +21,7 @@ jobs:
         run: |
           cd functions
           touch fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
-          echo "${{ secrets.FIREBASE_ADMIN }}" >> fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}" >> fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json
       - name: 의존성 주입
         run: |
           cd functions
