@@ -9,11 +9,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ 체크아웃 ✅
+      - name: ✅ 체크아웃
         uses: actions/checkout@v2
-      - name: 🌴 의존성 주입 및 eslint 작업 🌴
-        run: |
-          npm i
-          npm run lint
+      - name: 🐕 function 디렉토리로 이동합니다.
+        run: cd function
+      - name: 🪴 라이브러리 및 모듈을 설치합니다.
+        run: npm i
+      - name: 🧐 eslint를 사용해 코드에 문제가 없는지 확인합니다.
+        run: npm run lint
+
         env:
           CI: true

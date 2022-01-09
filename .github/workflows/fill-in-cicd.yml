@@ -13,32 +13,32 @@ jobs:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
-      - name: ✅ 체크아웃 ✅
+      - name: ✅ 체크아웃
         uses: actions/checkout@v2
-      - name: ⚙️ 환경변수 설정 ⚙️
+      - name: ⚙️ 환경변수를 설정합니다.
         run: |
           cd functions
           touch .env
           echo "${{ secrets.ENV_VARS }}" >> .env
-      - name: 🔑 Firebase Admin JSON 설정 🔑
+      - name: 🔑 Firebase Admin 시크릿키를 JSON으로 생성합니다.
         id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json"
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}
           dir: "functions/"
-      - name: 🎁 의존성 주입 🎁
+      - name: 🎁 필요한 라이브러리 및 모듈을 설치합니다.
         run: |
           cd functions
           npm install
           npm install -g firebase-tools
-      - name: 📡 Firebase 배포 📡
+      - name: 📡 Firebase에 배포합니다.
         run: |
           cd functions
           npm run deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      - name: ⛓ Firebase hosting 배포 ⛓
+      - name: ⛓ Firebase hosting 배포를 진행합니다.
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
