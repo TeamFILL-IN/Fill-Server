@@ -2,7 +2,10 @@
 
 name: FILL-IN PR Check
 
-"on": pull_request
+on:
+  pull_request:
+    branches:
+      - develop
 jobs:
   code_check:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"

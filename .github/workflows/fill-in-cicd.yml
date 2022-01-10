@@ -10,7 +10,6 @@ name: FILL-IN CI/CD
       - main
 jobs:
   FILL-IN-DEPLOY:
-    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
       - name: ✅ 체크아웃
@@ -38,9 +37,3 @@ jobs:
           npm run deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      - name: ⛓ Firebase hosting 배포를 진행합니다.
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}"
-          projectId: fill-in-13efb
