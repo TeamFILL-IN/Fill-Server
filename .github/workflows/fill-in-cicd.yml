@@ -7,7 +7,7 @@ name: FILL-IN CI/CD
 "on":
   push:
     branches:
-      - develop
+      - main
 jobs:
   FILL-IN-DEPLOY:
     runs-on: ubuntu-latest
