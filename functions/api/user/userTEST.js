@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
   try {
     console.log('test');
-    return res.status(sc.OK).send(success(sc.OK, '테스트 성공', { '아이고 좋아라': '아이고 좋아라' }));
+    return res.status(sc.OK).send(success(sc.OK, '테스트 성공', { 'cicd test': 'cicd test' }));
     // client = await db.connect(req);
     // const user = await userDB.getUserById(client, userId);
     // if (!user) return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.NO_USER));
