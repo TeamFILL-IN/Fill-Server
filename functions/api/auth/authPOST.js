@@ -45,8 +45,10 @@ module.exports = async (req, res) => {
     }
 
     const { refreshToken } = jwt.createRefresh();
-    await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
     const { accessToken } = jwt.sign(existedUser);
+
+    if (existedUser.is_deleted) await userDB.updateIsDeleted(client, existedUser.id);
+    await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
 
     res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { email, accessToken, refreshToken }));
   } catch (error) {

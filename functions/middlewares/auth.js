@@ -8,15 +8,15 @@ const { userDB } = require('../db');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
 
 const auth = async (req, res, next) => {
-  const { accesstoken } = req.headers;
-  if (!accesstoken) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_EMPTY));
+  const { token } = req.headers;
+  if (!token) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_EMPTY));
 
   let client;
 
   try {
     client = await db.connect(req);
 
-    const decodedToken = jwt.verify(accesstoken);
+    const decodedToken = jwt.verify(token);
     console.log(decodedToken);
     if (decodedToken === TOKEN_EXPIRED) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_EXPIRED));
     if (decodedToken === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
@@ -33,7 +33,7 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    functions.logger.error(`[AUTH ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, accesstoken);
+    functions.logger.error(`[AUTH ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, token);
     res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
   } finally {
     client.release();

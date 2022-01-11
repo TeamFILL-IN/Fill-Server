@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
     // jwt를 해독하고 인증 절차를 거칩니다.
     const decodedToken = jwt.verify(accesstoken);
-
+    console.log(decodedToken);
     if (decodedToken === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
 
     const refresh = jwt.verifyRefresh(refreshtoken, decodedToken.id);

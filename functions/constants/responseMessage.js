@@ -11,7 +11,6 @@ module.exports = {
   // 로그인
   LOGIN_SUCCESS: '로그인 성공',
   LOGIN_FAIL: '로그인 실패',
-  NO_USER: '존재하지 않는 회원입니다.',
   MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
   INVALID_EMAIL: '이메일 형식을 확인해주세요.',
 
@@ -26,6 +25,7 @@ module.exports = {
   READ_ALL_USERS_SUCCESS: '모든 유저 조회 성공',
   UPDATE_ONE_USER_SUCCESS: '유저 수정 성공',
   DELETE_ONE_USER_SUCCESS: '유저 삭제 성공',
+  NO_USER: '탈퇴했거나 존재하지 않는 유저입니다',
 
   // 포스트
   ADD_ONE_POST_SUCCESS: '포스트 추가 성공',

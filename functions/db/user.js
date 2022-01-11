@@ -40,7 +40,6 @@ const checkAlreadyUser = async (client, social, email) => {
     `
     SELECT * FROM "User" u
     WHERE social = $1 and email = $2
-      AND is_deleted = FALSE
     `,
     [social, email],
   );
@@ -56,6 +55,20 @@ const getUserRefreshToken = async (client, userId) => {
     `,
     [userId],
   );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const updateIsDeleted = async (client, userId) => {
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET is_deleted = FALSE, updated_at = now()
+    WHERE id = $1
+    RETURNING *
+    `,
+    [userId],
+  );
+
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
@@ -101,4 +114,4 @@ const addUser = async (client, social, email, nickname, refreshToken) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllUsers, getUserById, getUserByEmail, checkAlreadyUser, getUserRefreshToken, updateRefreshToken, deleteUser, addUser };
+module.exports = { getAllUsers, getUserById, getUserByEmail, checkAlreadyUser, getUserRefreshToken, updateIsDeleted, updateRefreshToken, deleteUser, addUser };

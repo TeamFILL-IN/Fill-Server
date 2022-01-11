@@ -14,10 +14,13 @@ module.exports = async (req, res) => {
 
   try {
     client = await db.connect(req);
-    const user = await userDB.getUserById(client, userId);
-    if (!user) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_USER));
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_USER_SUCCESS, { user }));
+    const user = await userDB.getUserById(client, userId);
+    if (user.is_deleted) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
+
+    const deletedUser = await userDB.deleteUser(client, userId);
+
+    res.status(sc.OK).send(success(sc.OK, rm.DELETE_ONE_USER_SUCCESS, deletedUser));
   } catch (error) {
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
