@@ -10,7 +10,7 @@ const secretKey = process.env.JWT_SECRET;
 // access_token option 세팅
 const ac_options = {
   algorithm: 'HS256',
-  expiresIn: '1s',
+  expiresIn: '1h',
   issuer: 'fillin',
 };
 
