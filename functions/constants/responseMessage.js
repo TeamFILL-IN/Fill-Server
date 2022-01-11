@@ -18,6 +18,9 @@ module.exports = {
   // 프로필 조회
   READ_PROFILE_SUCCESS: '프로필 조회 성공',
 
+  // 필름 조회
+  INVALID_STYLE_ID: '잘못된 스타일 아이디입니다.',
+  FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
   READ_ALL_USERS_SUCCESS: '모든 유저 조회 성공',
