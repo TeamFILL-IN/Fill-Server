@@ -1,3 +1,4 @@
 module.exports = {
-  filmDB: require('./film')
+  filmDB: require('./film'),
+  userDB: require('./user')
 };
