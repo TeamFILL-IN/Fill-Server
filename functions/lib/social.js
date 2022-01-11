@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { success, fail } = require('../lib/util');
+const { success, fail } = require("./util");
 const sc = require('../constants/statusCode');
 const rm = require('../constants/responseMessage');
 

@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     }
 
     if (!user) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
-    const email = user.email;
+    const { email } = user;
 
     const existedUser = await userDB.checkAlreadyUser(client, social, email);
 
@@ -47,13 +47,13 @@ module.exports = async (req, res) => {
     const { refreshToken } = jwt.createRefresh();
     const { accessToken } = jwt.sign(existedUser);
 
-    if (existedUser.is_deleted) await userDB.updateIsDeleted(client, existedUser.id);
+    if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
     await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
 
     res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { email, accessToken, refreshToken }));
   } catch (error) {
     console.log(error);
-    functions.logger.error(`[EMAIL SIGNUP ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] email:${email} ${error}`);
+    functions.logger.error(`[EMAIL SIGNUP ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`);
 
     res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERR));
   } finally {

@@ -17,7 +17,6 @@ const auth = async (req, res, next) => {
     client = await db.connect(req);
 
     const decodedToken = jwt.verify(token);
-    console.log(decodedToken);
     if (decodedToken === TOKEN_EXPIRED) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_EXPIRED));
     if (decodedToken === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
 

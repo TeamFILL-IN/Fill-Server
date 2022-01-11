@@ -16,13 +16,13 @@ const randNickname = (name) => {
 };
 
 const generateNickname = (name) => {
-  const first = name.first;
-  const last = name.last;
+  const {first} = name;
+  const {last} = name;
 
   shuffle(first);
   shuffle(last);
 
-  return randNickname(first) + ' ' + randNickname(last);
+  return `${randNickname(first)  } ${  randNickname(last)}`;
 };
 
 module.exports = generateNickname;

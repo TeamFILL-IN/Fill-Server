@@ -23,14 +23,14 @@ const getUserById = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-const getUserByEmail = async (client, email) => {
+const getUserByRfToken = async (client, refreshToken) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "User" u
-    WHERE email = $1
+    WHERE refresh_token = $1
       AND is_deleted = FALSE
     `,
-    [email],
+    [refreshToken],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
@@ -114,4 +114,4 @@ const addUser = async (client, social, email, nickname, refreshToken) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllUsers, getUserById, getUserByEmail, checkAlreadyUser, getUserRefreshToken, updateIsDeleted, updateRefreshToken, deleteUser, addUser };
+module.exports = { getAllUsers, getUserById, getUserByRfToken, checkAlreadyUser, getUserRefreshToken, updateIsDeleted, updateRefreshToken, deleteUser, addUser };
