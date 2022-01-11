@@ -16,7 +16,7 @@ module.exports = {
   INVALID_EMAIL: '이메일 형식을 확인해주세요.',
 
   // 소셜
-  UNAUTHORIZED_SOCIAL: '이메일이 존재하지 않거나 유효하지 않은 소셜 유저입니다.',
+  UNAUTHORIZED_SOCIAL: '유효하지 않은 소셜 유저/토큰입니다.',
 
   // 프로필 조회
   READ_PROFILE_SUCCESS: '프로필 조회 성공',
@@ -39,10 +39,10 @@ module.exports = {
   INTERNAL_SERVER_ERROR: '서버 내 오류',
 
   // 토큰
-  TOKEN_EXPIRED: '토큰이 만료되었습니다.',
-  ALL_TOKEN_EXPIRED: '모든 토큰이 만료되었습니다. 재로그인 또는 회원가입을 진행해주세요.',
-  TOKEN_INVALID: '토큰이 유효하지 않습니다.',
-  TOKEN_EMPTY: '토큰이 없습니다.',
+  TOKEN_EXPIRED: '토큰이 만료되었습니다',
+  ALL_TOKEN_EXPIRED: '모든 토큰이 만료되었습니다. 재로그인 또는 회원가입을 진행해주세요',
+  TOKEN_INVALID: '토큰이 유효하지 않습니다',
+  TOKEN_EMPTY: '토큰이 없습니다',
   TOKEN_VALID: '토큰이 유효합니다',
   CREATE_TOKEN: '토큰 재발급 성공',
 

@@ -23,18 +23,6 @@ const getUserById = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-const getUserByIdFirebase = async (client, idFirebase) => {
-  const { rows } = await client.query(
-    `
-    SELECT * FROM "User" u
-    WHERE id_firebase = $1
-      AND is_deleted = FALSE
-    `,
-    [idFirebase],
-  );
-  return convertSnakeToCamel.keysToCamel(rows[0]);
-};
-
 const getUserByEmail = async (client, email) => {
   const { rows } = await client.query(
     `
@@ -71,6 +59,19 @@ const getUserRefreshToken = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+const updateRefreshToken = async (client, userId, refreshToken) => {
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET refresh_token = $2, updated_at = now()
+    WHERE id = $1
+    RETURNING * 
+    `,
+    [userId, refreshToken],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
 const deleteUser = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -100,4 +101,4 @@ const addUser = async (client, social, email, nickname, refreshToken) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllUsers, getUserById, getUserByIdFirebase, getUserByEmail, checkAlreadyUser, getUserRefreshToken, deleteUser, addUser };
+module.exports = { getAllUsers, getUserById, getUserByEmail, checkAlreadyUser, getUserRefreshToken, updateRefreshToken, deleteUser, addUser };

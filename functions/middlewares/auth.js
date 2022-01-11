@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const jwtHandlers = require('../lib/jwtHandlers');
+const jwt = require('../lib/jwt');
 const db = require('../db/db');
 const { success, fail } = require('../lib/util');
 const sc = require('../constants/statusCode');
@@ -16,8 +16,8 @@ const auth = async (req, res, next) => {
   try {
     client = await db.connect(req);
 
-    const decodedToken = jwtHandlers.verify(accesstoken);
-
+    const decodedToken = jwt.verify(accesstoken);
+    console.log(decodedToken);
     if (decodedToken === TOKEN_EXPIRED) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_EXPIRED));
     if (decodedToken === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
 

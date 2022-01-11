@@ -13,7 +13,7 @@ const { kakaoAuth } = require('../../lib/social');
 module.exports = async (req, res) => {
   const { token, social } = req.body;
 
-  if (!token || !social) return res.status(sc.NULL_VALUE).send(fail(sc.NULL_VALUE, rm.NULL_VALUE));
+  if (!token || !social) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   const nickname = nicknameGenerator(nicknameSet);
 
@@ -35,14 +35,20 @@ module.exports = async (req, res) => {
     if (!user) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
     const email = user.email;
 
-    const alreadySigned = await userDB.checkAlreadyUser(client, social, email);
-    if (alreadySigned) res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.ALREADY_USER));
+    const existedUser = await userDB.checkAlreadyUser(client, social, email);
+
+    if (!existedUser) {
+      const { refreshToken } = jwt.createRefresh();
+      const newUser = await userDB.addUser(client, social, email, nickname, refreshToken);
+      const { accessToken } = jwt.sign(newUser);
+      res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { email, nickname, accessToken, refreshToken }));
+    }
 
     const { refreshToken } = jwt.createRefresh();
-    const newUser = await userDB.addUser(client, social, email, nickname, refreshToken);
-    const { accessToken } = jwt.sign(newUser);
+    await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
+    const { accessToken } = jwt.sign(existedUser);
 
-    res.status(sc.OK).send(success(sc.OK, rm.CREATED_USER, { email, nickname, accessToken, refreshToken }));
+    res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { email, accessToken, refreshToken }));
   } catch (error) {
     console.log(error);
     functions.logger.error(`[EMAIL SIGNUP ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] email:${email} ${error}`);

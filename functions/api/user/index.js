@@ -1,6 +1,7 @@
 const express = require('express');
+const { auth } = require('../../middlewares/auth');
 const router = express.Router();
 
-router.get('/', require('./userGET'));
+router.get('/', auth, require('./userGET'));
 
 module.exports = router;
