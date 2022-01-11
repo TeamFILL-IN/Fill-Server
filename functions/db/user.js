@@ -1,0 +1,103 @@
+const _ = require('lodash');
+const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
+
+const getAllUsers = async (client) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "User" u
+    WHERE is_deleted = FALSE
+    `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
+
+const getUserById = async (client, userId) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "User" u
+    WHERE id = $1
+      AND is_deleted = FALSE
+    `,
+    [userId],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const getUserByIdFirebase = async (client, idFirebase) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "User" u
+    WHERE id_firebase = $1
+      AND is_deleted = FALSE
+    `,
+    [idFirebase],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const getUserByEmail = async (client, email) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "User" u
+    WHERE email = $1
+      AND is_deleted = FALSE
+    `,
+    [email],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const checkAlreadyUser = async (client, social, email) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "User" u
+    WHERE social = $1 and email = $2
+      AND is_deleted = FALSE
+    `,
+    [social, email],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const getUserRefreshToken = async (client, userId) => {
+  const { rows } = await client.query(
+    `
+    SELECT refresh_token FROM "User" u
+    WHERE user_id = $1
+      AND is_deleted = FALSE
+    `,
+    [userId],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const deleteUser = async (client, userId) => {
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET is_deleted = TRUE, updated_at = now()
+    WHERE id = $1
+    RETURNING *
+    `,
+    [userId],
+  );
+
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const addUser = async (client, social, email, nickname, refreshToken) => {
+  const { rows } = await client.query(
+    `
+    INSERT INTO "User"
+    (social, email, nickname, refresh_token)
+    VALUES
+    ($1, $2, $3, $4)
+    RETURNING *
+    `,
+
+    [social, email, nickname, refreshToken],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+module.exports = { getAllUsers, getUserById, getUserByIdFirebase, getUserByEmail, checkAlreadyUser, getUserRefreshToken, deleteUser, addUser };

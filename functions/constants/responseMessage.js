@@ -6,7 +6,7 @@ module.exports = {
   // 회원가입
   CREATED_USER: '회원 가입 성공',
   DELETE_USER: '회원 탈퇴 성공',
-  ALREADY_EMAIL: '이미 사용중인 이메일입니다.',
+  ALREADY_USER: '이미 가입된 이메일입니다.',
 
   // 로그인
   LOGIN_SUCCESS: '로그인 성공',
@@ -14,6 +14,9 @@ module.exports = {
   NO_USER: '존재하지 않는 회원입니다.',
   MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
   INVALID_EMAIL: '이메일 형식을 확인해주세요.',
+
+  // 소셜
+  UNAUTHORIZED_SOCIAL: '이메일이 존재하지 않거나 유효하지 않은 소셜 유저입니다.',
 
   // 프로필 조회
   READ_PROFILE_SUCCESS: '프로필 조회 성공',
@@ -37,8 +40,11 @@ module.exports = {
 
   // 토큰
   TOKEN_EXPIRED: '토큰이 만료되었습니다.',
+  ALL_TOKEN_EXPIRED: '모든 토큰이 만료되었습니다. 재로그인 또는 회원가입을 진행해주세요.',
   TOKEN_INVALID: '토큰이 유효하지 않습니다.',
   TOKEN_EMPTY: '토큰이 없습니다.',
+  TOKEN_VALID: '토큰이 유효합니다',
+  CREATE_TOKEN: '토큰 재발급 성공',
 
   // 인증
   NO_AUTH_HEADER: 'Authorization 헤더가 없습니다.',
