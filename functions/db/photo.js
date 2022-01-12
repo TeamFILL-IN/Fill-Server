@@ -1,6 +1,15 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
+const getAllPhotos = async (client) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "Photo" p
+    WHERE is_deleted = FALSE
+    `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
 
 const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
@@ -9,7 +18,7 @@ const getPhotosByStyle = async (client, styleId) => {
       JOIN "Film" f  ON p.film_id = f.id
       WHERE f.style_id = $1
     `,
-    [styleId]
+    [styleId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 };
@@ -25,4 +34,4 @@ const getPhotosByFilm = async (client, filmId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-module.exports = { getPhotosByStyle, getPhotosByFilm };
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm };

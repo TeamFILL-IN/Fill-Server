@@ -1,8 +1,6 @@
 const functions = require('firebase-functions');
 const jwt = require('jsonwebtoken');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
-const db = require('../db/db');
-const { userDB } = require('../db');
 
 // secretKey
 const secretKey = process.env.JWT_SECRET;
