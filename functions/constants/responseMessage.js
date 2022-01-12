@@ -20,6 +20,15 @@ module.exports = {
   // 프로필 조회
   READ_PROFILE_SUCCESS: '프로필 조회 성공',
 
+  // 필름 조회
+  INVALID_STYLE_ID: '잘못된 스타일 아이디입니다.',
+  READ_FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
+
+  // 사진 조회
+  NO_PHOTO_OF_STYLE_EXIST: '해당 종류의 사진이 존재하지 않습니다',
+  READ_PHOTOS_OF_STYLE_SUCCESS: '스타일 별 사진 조회 성공',
+  
+
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
   READ_ALL_USERS_SUCCESS: '모든 유저 조회 성공',
@@ -34,6 +43,12 @@ module.exports = {
   UPDATE_ONE_POST_SUCCESS: '포스트 수정 성공',
   DELETE_ONE_POST_SUCCESS: '포스트 삭제 성공',
   NO_POST: '존재하지 않는 포스트입니다.',
+
+  // 스튜디오
+  READ_ONE_STUDIO_SUCCESS: '스튜디오 조회 성공',
+  READ_ALL_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
+  SEARCH_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
+  NO_STUDIO: '존재하지 않는 스튜디오입니다',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
