@@ -16,11 +16,11 @@ module.exports = async (req, res) => {
 
     client = await db.connect(req);
 
-    const photoOfId = await photoDB.getPhotoById(client, photoId);
+    const photo = await photoDB.getPhotoById(client, photoId);
 
-    if (!photoOfId) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTO_SUCCESS, photoOfId));    
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTO_SUCCESS, photo));    
   } catch (error) {
 
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
