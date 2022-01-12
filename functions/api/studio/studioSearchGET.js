@@ -7,12 +7,13 @@ const { studioDB } = require('../../db');
 
 module.exports = async (req, res) => {
   const keyword = req.query.keyword;
+  if (!keyword) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_KEYWORD));
 
   let client;
 
   try {
     client = await db.connect(req);
-
+  
     const studio = await studioDB.searchStudio(client, keyword);
     if (!studio) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
     const data = { studio };

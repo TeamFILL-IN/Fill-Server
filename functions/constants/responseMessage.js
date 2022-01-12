@@ -51,8 +51,10 @@ module.exports = {
   // 스튜디오
   READ_ONE_STUDIO_SUCCESS: '스튜디오 조회 성공',
   READ_ALL_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
-  SEARCH_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
   NO_STUDIO: '존재하지 않는 스튜디오입니다',
+
+  // 검색
+  NO_KEYWORD: '키워드가 없습니다, 키워드를 입력해주세요',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
