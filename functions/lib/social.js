@@ -1,11 +1,11 @@
 const axios = require('axios');
-const verifyAppleToken = require('verify-apple-id-token');
+const jwt = require('jsonwebtoken');
 const { success, fail } = require('./util');
 const sc = require('../constants/statusCode');
 const rm = require('../constants/responseMessage');
 
 const kakaoAuth = async (kakaoAccessToken) => {
-  console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 확인합니다.');
+  console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 유저 정보를 확인합니다.');
 
   try {
     const user = await axios({
@@ -17,7 +17,7 @@ const kakaoAuth = async (kakaoAccessToken) => {
     });
     const kakaoUser = user.data.kakao_account;
 
-    if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified || !kakaoUser.email) return null;
+    if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return null;
 
     return kakaoUser;
   } catch (err) {
@@ -26,18 +26,17 @@ const kakaoAuth = async (kakaoAccessToken) => {
 };
 
 const appleAuth = async (appleAccessToken) => {
-  console.log('🔑 Apple 토큰을 Apple API server에 요청하여 확인합니다.');
+  console.log('🔑 Apple 토큰을 해독하여 유저 정보를 확인합니다.');
 
   try {
-    const user = await verifyAppleToken({
-      idToken: appleAccessToken,
-      clientId: 'yourAppleClientId',
-    });
+    const appleUser = jwt.decode(appleAccessToken);
 
-    console.log(user);
+    if (!appleUser.email_verified) return null;
+
+    return appleUser;
   } catch (err) {
     return null;
   }
 };
 
-module.exports = { kakaoAuth };
+module.exports = { kakaoAuth, appleAuth };
