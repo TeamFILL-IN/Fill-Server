@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
-const getPhotoByStyle = async (client, styleId) => {
+const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
@@ -10,8 +10,8 @@ const getPhotoByStyle = async (client, styleId) => {
     `,
     [styleId]
   );
-  return convertSnakeToCamel.keysToCamel( rows);
+  return convertSnakeToCamel.keysToCamel(rows);
 };
 
 
-module.exports = { getPhotoByStyle };
+module.exports = { getPhotosByStyle };
