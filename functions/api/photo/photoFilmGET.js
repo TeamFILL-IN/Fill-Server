@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
 
     client = await db.connect(req);
     const photosOfFilm = await photoDB.getPhotosByFilm(client, filmId);
-    console.log(photosOfFilm)
     if (photosOfFilm.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
 
     
