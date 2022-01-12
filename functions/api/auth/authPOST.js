@@ -8,7 +8,7 @@ const { userDB } = require('../../db');
 const jwt = require('../../lib/jwt');
 const nicknameGenerator = require('../../lib/nicknameGenerator');
 const nicknameSet = require('../../constants/nicknameSet');
-const { kakaoAuth } = require('../../lib/social');
+const { kakaoAuth, appleAuth } = require('../../lib/social');
 
 module.exports = async (req, res) => {
   const { token, social } = req.body;
@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
   try {
     const client = await db.connect();
     let user;
+    let email = null;
 
     // TODO. apple token 인증
     switch (social) {
@@ -29,11 +30,12 @@ module.exports = async (req, res) => {
         user = await kakaoAuth(token);
         break;
       case 'apple':
+        user = await appleAuth(token);
         break;
     }
 
     if (!user) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
-    const { email } = user;
+    if (user.email) email = user.email;
 
     const existedUser = await userDB.checkAlreadyUser(client, social, email);
 
