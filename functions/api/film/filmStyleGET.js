@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
     const filmsOfStyle = await filmDB.getFilmsByStyle(client, styleId);
     
-    if (!filmsOfStyle) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
+    if (filmsOfStyle.length == 0) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
     
     res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, filmsOfStyle));
   } catch (error) {

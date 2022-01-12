@@ -10,14 +10,11 @@ module.exports = async (req, res) => {
   const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   
-  let client;
-  
   try {
     client = await db.connect(req);
 
     const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId);
-    
-    if (!photosOfFilmStyle) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_PHOTO_OF_STYLE_EXIST));
+    if (photosOfFilmStyle.length == 0) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_PHOTO_OF_STYLE_EXIST));
     
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STYLE_SUCCESS, photosOfFilmStyle));
   
