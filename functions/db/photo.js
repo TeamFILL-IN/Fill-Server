@@ -38,7 +38,8 @@ const getPhotoById = async (client, photoId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
-      WHERE id = $1
+    WHERE id = $1
+      AND is_deleted = FALSE
     `,
     [photoId]
   );
