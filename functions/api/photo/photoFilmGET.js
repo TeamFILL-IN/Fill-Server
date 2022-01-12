@@ -15,12 +15,12 @@ module.exports = async (req, res) => {
   try {
 
     client = await db.connect(req);
+
     const photosOfFilm = await photoDB.getPhotosByFilm(client, filmId);
+
     if (photosOfFilm.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
 
-    
-    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_FILM_SUCCESS, photosOfFilm));
-    
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_FILM_SUCCESS, photosOfFilm));    
   } catch (error) {
 
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
