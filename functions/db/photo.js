@@ -34,4 +34,16 @@ const getPhotosByFilm = async (client, filmId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm };
+const getPhotoById = async (client, photoId) => {
+  const { rows } = await client.query(
+    `
+    SELECT * FROM "Photo" p
+      WHERE id = $1
+    `,
+    [photoId]
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+}
+
+
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById };
