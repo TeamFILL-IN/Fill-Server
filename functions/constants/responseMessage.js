@@ -56,6 +56,11 @@ module.exports = {
   // 검색
   NO_KEYWORD: '키워드가 없습니다, 키워드를 입력해주세요',
 
+  // 큐레이션
+  READ_RAND_CURATION_SUCCESS: '큐레이션 랜덤 조회 성공',
+  READ_ONE_CURATION_SUCCESS: '특정 큐레이션 조회 성공',
+  NO_CURATION: '존재하지 않는 큐레이션입니다',
+
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
 
