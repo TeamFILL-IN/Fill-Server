@@ -44,6 +44,12 @@ module.exports = {
   DELETE_ONE_POST_SUCCESS: '포스트 삭제 성공',
   NO_POST: '존재하지 않는 포스트입니다.',
 
+  // 스튜디오
+  READ_ONE_STUDIO_SUCCESS: '스튜디오 조회 성공',
+  READ_ALL_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
+  SEARCH_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
+  NO_STUDIO: '존재하지 않는 스튜디오입니다',
+
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
 
