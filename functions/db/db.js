@@ -2,14 +2,13 @@ const functions = require('firebase-functions');
 const { Pool, Query } = require('pg');
 const dayjs = require('dayjs');
 const dotenv = require('dotenv');
-
 dotenv.config();
 
 // DB Config 로드
 const dbConfig = require('../config/dbConfig');
 
 // 환경 모드 설정
-const devMode = process.env.NODE_ENV === 'development';
+let devMode = process.env.NODE_ENV === 'development';
 
 // SQL 쿼리문 프린트 ( true는 출력, false는 미출력 )
 const sqlDebug = true;
@@ -18,9 +17,9 @@ const sqlDebug = true;
 기본 설정에서는 우리가 실행하게 되는 SQL 쿼리문이 콘솔에 찍히지 않기 때문에,
 pg 라이브러리 내부의 함수를 살짝 손봐서 SQL 쿼리문이 콘솔에 찍히게 만들어 줍시다.
  */
-const {submit} = Query.prototype;
+const submit = Query.prototype.submit;
 Query.prototype.submit = function () {
-  const {text} = this;
+  const text = this.text;
   const values = this.values || [];
   const query = text.replace(/\$([0-9]+)/g, (m, v) => JSON.stringify(values[parseInt(v) - 1]));
 
@@ -52,8 +51,8 @@ const connect = async (req) => {
       : `request 없음`;
   const callStack = new Error().stack;
   const client = await pool.connect();
-  const {query} = client;
-  const {release} = client;
+  const query = client.query;
+  const release = client.release;
 
   const releaseChecker = setTimeout(() => {
     devMode

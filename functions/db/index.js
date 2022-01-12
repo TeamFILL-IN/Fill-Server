@@ -1,3 +1,1 @@
-module.exports = {
-  userDB: require('./user'),
-};
+module.exports = {};
