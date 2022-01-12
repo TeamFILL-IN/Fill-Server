@@ -1,5 +1,5 @@
 const axios = require('axios');
-const jwt = require('jsonwebtoken');
+const jwt = require('./jwt');
 
 const kakaoAuth = async (kakaoAccessToken) => {
   console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 유저 정보를 확인합니다.');
@@ -26,7 +26,7 @@ const appleAuth = async (appleAccessToken) => {
   console.log('🔑 Apple 토큰을 해독하여 유저 정보를 확인합니다.');
 
   try {
-    const appleUser = jwt.decode(appleAccessToken);
+    const appleUser = jwt.verify(appleAccessToken);
 
     if (!appleUser.email_verified) return null;
 

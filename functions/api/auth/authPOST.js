@@ -23,7 +23,6 @@ module.exports = async (req, res) => {
     let user;
     let email = null;
 
-    // TODO. apple token 인증
     switch (social) {
       case 'kakao':
         user = await kakaoAuth(token);
