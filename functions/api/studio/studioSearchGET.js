@@ -6,7 +6,6 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 
 module.exports = async (req, res) => {
-  //const { keyword } = req.body;
   const keyword = req.params.keyword;
 
   let client;
