@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-router.use('/user', require('./user'));
-router.use('/auth', require('./auth'));
+router.get('/refresh', require('./authRefreshGET'));
+router.post('/', require('./authPOST'));
 
 module.exports = router;

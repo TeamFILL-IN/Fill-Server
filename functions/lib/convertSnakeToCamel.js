@@ -23,7 +23,7 @@ const keysToCamel = function (o) {
     });
 
     return n;
-  } else if (isArray(o)) {
+  } if (isArray(o)) {
     return o.map((i) => {
       return keysToCamel(i);
     });
@@ -40,7 +40,7 @@ const keysToSnake = function (o) {
     });
 
     return n;
-  } else if (isArray(o)) {
+  } if (isArray(o)) {
     return o.map((i) => {
       return _.snakeCase(i);
     });
