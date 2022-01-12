@@ -1,4 +1,5 @@
 module.exports = {
   filmDB: require('./film'),
-  userDB: require('./user')
+  userDB: require('./user'),
+  photoDB: require('./photo')
 };

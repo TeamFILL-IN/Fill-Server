@@ -3,7 +3,7 @@ const util = require('../../lib/util');
 const statusCode = require('../../constants/statusCode');
 const responseMessage = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { filmDB } = require('../../db');
+const { filmDB, photoDB } = require('../../db');
 
 module.exports = async (req, res) => {
 
@@ -21,13 +21,13 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const filmsOfStyle = await filmDB.getFilmsByStyle(client, styleId);
+    const photosOfFilmStyle = await photoDB.getPhotoByStyle(client, styleId);
     
-    if (!filmsOfStyle) return res.status(statusCode.BAD_REQUEST)
+    if (!photosOfFilmStyle) return res.status(statusCode.BAD_REQUEST)
       .send(util.fail
         (
           statusCode.BAD_REQUEST,
-          responseMessage.INVALID_STYLE_ID
+          responseMessage.NO_PHOTO_OF_STYLE_EXIST
         )
       );
     
@@ -35,8 +35,8 @@ module.exports = async (req, res) => {
       .send(util.success
         (
           statusCode.OK,
-          responseMessage.READ_FILMS_OF_STYLE_SUCCESS,
-          filmsOfStyle
+          responseMessage.READ_PHOTOS_OF_STYLE_SUCCESS,
+          photosOfFilmStyle
         )
       );
   

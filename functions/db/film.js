@@ -4,7 +4,7 @@ const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 const getFilmsByStyle = async (client,styleId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Film" f
+    SELECT id, name, style_id FROM "Film" f
     WHERE style_id = $1
     `,
     [styleId],

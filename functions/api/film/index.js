@@ -1,6 +1,7 @@
 const express = require('express');
+const {auth} = require('../../middlewares/auth');
 const router = express.Router();
 
-router.get('/:styleId', require('./filmStyleGET'));
+router.get('/:styleId', auth, require('./filmStyleGET'));
 
 module.exports = router;

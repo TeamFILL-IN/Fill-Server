@@ -22,7 +22,13 @@ module.exports = {
 
   // 필름 조회
   INVALID_STYLE_ID: '잘못된 스타일 아이디입니다.',
-  FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
+  READ_FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
+
+  // 사진 조회
+  NO_PHOTO_OF_STYLE_EXIST: '해당 종류의 사진이 존재하지 않습니다',
+  READ_PHOTOS_OF_STYLE_SUCCESS: '스타일 별 사진 조회 성공',
+  
+
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
   READ_ALL_USERS_SUCCESS: '모든 유저 조회 성공',
