@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    photoNum = 10 * ( pageNum - 1 )
+    const photoNum = 10 * ( pageNum - 1 )
 
     const photos = await photoDB.getAllPhotos(client, photoNum);
     

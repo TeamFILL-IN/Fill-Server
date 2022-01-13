@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   
     client = await db.connect(req);
 
-    photoNum = 10 * ( pageNum - 1 )
+    const photoNum = 10 * ( pageNum - 1 )
     
     const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId, photoNum);
 
