@@ -8,6 +8,7 @@ const jwt = require('../../lib/jwt');
 const nicknameGenerator = require('../../lib/nicknameGenerator');
 const nicknameSet = require('../../constants/nicknameSet');
 const { kakaoAuth, appleAuth } = require('../../lib/social');
+const { NOT_INCLUDE_EMAIL, NO_USER, INVALID_USER } = require('../../constants/social');
 
 module.exports = async (req, res) => {
   const { token, social } = req.body;
@@ -21,19 +22,21 @@ module.exports = async (req, res) => {
   try {
     const client = await db.connect();
     let user;
-    let email = null;
+    let email = '';
 
     switch (social) {
       case 'kakao':
         user = await kakaoAuth(token);
+        if (user === NOT_INCLUDE_EMAIL) email = '';
+        if (user === INVALID_USER) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
         break;
       case 'apple':
         user = await appleAuth(token);
+        if (user.email) email = user.email;
         break;
     }
 
     if (!user) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
-    if (user.email) email = user.email;
 
     const existedUser = await userDB.checkAlreadyUser(client, social, email);
 
@@ -41,7 +44,7 @@ module.exports = async (req, res) => {
       const { refreshToken } = jwt.createRefresh();
       const newUser = await userDB.addUser(client, social, email, nickname, refreshToken);
       const { accessToken } = jwt.sign(newUser);
-      res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { email, nickname, accessToken, refreshToken }));
+      return res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { email, nickname, accessToken, refreshToken }));
     }
 
     const { refreshToken } = jwt.createRefresh();
