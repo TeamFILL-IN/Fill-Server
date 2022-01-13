@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   try {
     const client = await db.connect();
     let user;
-    let email = null;
+    let email = '';
 
     switch (social) {
       case 'kakao':
