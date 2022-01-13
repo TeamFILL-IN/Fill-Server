@@ -34,6 +34,8 @@ module.exports = {
   NO_PHOTO_OF_FILM_EXIST: '해당 필름의 사진이 존재하지 않습니다',
   READ_PHOTOS_OF_FILM_SUCCESS: '필름별 사진 조회 성공',
   ADD_PHOTO_SUCCESS: '사진 게시 성공',
+  NO_PHOTO_OF_STUDIO_EXIST: '해당 스튜디오의 사진이 존재하지 않습니다',
+  READ_PHOTOS_OF_STUDIO_SUCCESS: '스튜디오별 사진 조회 성공',
   
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
@@ -53,8 +55,15 @@ module.exports = {
   // 스튜디오
   READ_ONE_STUDIO_SUCCESS: '스튜디오 조회 성공',
   READ_ALL_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
-  SEARCH_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
   NO_STUDIO: '존재하지 않는 스튜디오입니다',
+
+  // 검색
+  NO_KEYWORD: '키워드가 없습니다, 키워드를 입력해주세요',
+
+  // 큐레이션
+  READ_RAND_CURATION_SUCCESS: '큐레이션 랜덤 조회 성공',
+  READ_ONE_CURATION_SUCCESS: '특정 큐레이션 조회 성공',
+  NO_CURATION: '존재하지 않는 큐레이션입니다',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',

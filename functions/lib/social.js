@@ -1,5 +1,6 @@
 const axios = require('axios');
 const jwt = require('./jwt');
+const { NOT_INCLUDE_EMAIL, INVALID_USER } = require('../constants/social');
 
 const kakaoAuth = async (kakaoAccessToken) => {
   console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 유저 정보를 확인합니다.');
@@ -12,9 +13,11 @@ const kakaoAuth = async (kakaoAccessToken) => {
         Authorization: `Bearer ${kakaoAccessToken}`,
       },
     });
+    console.log(user);
     const kakaoUser = user.data.kakao_account;
 
-    if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return null;
+    if (!kakaoUser) return NOT_INCLUDE_EMAIL;
+    if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return INVALID_USER;
 
     return kakaoUser;
   } catch (err) {

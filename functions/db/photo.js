@@ -48,7 +48,7 @@ const getPhotoById = async (client, photoId) => {
     WHERE id = $1
       AND is_deleted = FALSE
     `,
-    [photoId]
+    [photoId],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 }
@@ -62,10 +62,32 @@ const getPhotosByUser = async (client, userId, photoNum) => {
       ORDER BY created_at DESC
       LIMIT 10 OFFSET $2
     `,
-    [userId, photoNum]
+    [userId, photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
+const getPhotoByCuration = async (client, photoList) => {
+  const { rows } = await client.query(
+    `
+    SELECT id, low_image_url FROM "Photo" p
+    WHERE id IN (${photoList.join()})
+      AND is_deleted = FALSE
+    `
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+}
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByUser };
+const getPhotoByStudio = async (client, studioId) => {
+  const { rows } = await client.query(
+    `
+    SELECT id, low_image_url FROM "Photo" p
+    WHERE studio_id = $1
+      AND is_deleted = FALSE
+    `,
+    [studioId]
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+}
+
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotoByCuration, getPhotoByStudio, getPhotosByUser };
