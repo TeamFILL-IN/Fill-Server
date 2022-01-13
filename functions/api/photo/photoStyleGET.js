@@ -3,7 +3,7 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { filmDB } = require('../../db');
+const { photoDB } = require('../../db');
 const slack = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
@@ -15,11 +15,11 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const filmsOfStyle = await filmDB.getFilmsByStyle(client, styleId);
+    const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId);
 
-    if (filmsOfStyle.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.INVALID_STYLE_ID));
+    if (photosOfFilmStyle.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, filmsOfStyle));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STYLE_SUCCESS, photosOfFilmStyle));
   } catch (error) {
     slack.slackWebhook(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

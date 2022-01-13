@@ -3,30 +3,31 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { filmDB, photoDB } = require('../../db');
-const slack = require('../../other/slack/slack');
+const { photoDB } = require('../../db');
 
 module.exports = async (req, res) => {
-  const { styleId } = req.params;
-  if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
+  const { photoId } = req.params;
+  if (!photoId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  
   let client;
 
   try {
+
     client = await db.connect(req);
 
-    const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId);
+    const photo = await photoDB.getPhotoById(client, photoId);
 
-    if (!photosOfFilmStyle) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_PHOTO_OF_STYLE_EXIST));
+    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STYLE_SUCCESS, photosOfFilmStyle));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTO_SUCCESS, photo));    
   } catch (error) {
-    slack.slackWebhook(req, error.message);
+
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 
     res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   } finally {
     client.release();
-  }
+  };
 };
