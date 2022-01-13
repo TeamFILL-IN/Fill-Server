@@ -6,8 +6,8 @@ const getAllPhotos = async (client, photoNum) => {
     `
     SELECT * FROM "Photo" p
     WHERE is_deleted = FALSE
-    ORDER BY created_at DESC
-    LIMIT 10 OFFSET $1
+      ORDER BY created_at DESC
+      LIMIT 10 OFFSET $1
     `,
     [photoNum],
   );
@@ -20,6 +20,7 @@ const getPhotosByStyle = async (client, styleId, photoNum) => {
     SELECT * FROM "Photo" p
       JOIN "Film" f  ON p.film_id = f.id
       WHERE f.style_id = $1
+      AND is_deleted = FALSE
       ORDER BY created_at DESC
       LIMIT 10 OFFSET $2
     `,
@@ -32,7 +33,8 @@ const getPhotosByFilm = async (client, filmId, photoNum) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
-      WHERE film_id = $1
+    WHERE film_id = $1
+      AND is_deleted = FALSE
       ORDER BY created_at DESC
       LIMIT 10 OFFSET $2
     `,
@@ -78,14 +80,16 @@ const getPhotoByCuration = async (client, photoList) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-const getPhotoByStudio = async (client, studioId) => {
+const getPhotoByStudio = async (client, studioId, photoNum) => {
   const { rows } = await client.query(
     `
     SELECT id, low_image_url FROM "Photo" p
     WHERE studio_id = $1
       AND is_deleted = FALSE
+      ORDER BY created_at DESC
+      LIMIT 10 OFFSET $2
     `,
-    [studioId]
+    [studioId, photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
