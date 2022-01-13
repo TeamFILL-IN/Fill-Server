@@ -19,9 +19,7 @@ const sendMessageToSlack = (message, apiEndPoint = DEV_WEB_HOOK_ERROR_MONITORING
   }
 };
 
-const slackAPI = {
+module.exports = {
   sendMessageToSlack,
   DEV_WEB_HOOK_ERROR_MONITORING,
 };
-
-export default slackAPI;
