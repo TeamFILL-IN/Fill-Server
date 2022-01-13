@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db')
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
 
@@ -18,10 +19,11 @@ module.exports = async (req, res) => {
     const photos = await photoDB.getPhotoByStudio(client, studioId);
     if (photos.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STUDIO_EXIST));
     const data = { photos };
-    
+
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STUDIO_SUCCESS, data));
   
   } catch (error) {
+    slack(req, error.message);
 
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
