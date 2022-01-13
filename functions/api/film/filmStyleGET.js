@@ -4,7 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { filmDB } = require('../../db');
-const slack = require('../../other/slack/slack');
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const { styleId } = req.params;
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, filmsOfStyle));
   } catch (error) {
-    slack.slackWebhook(req, error.message);
+    slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 

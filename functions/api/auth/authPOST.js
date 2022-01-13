@@ -9,7 +9,7 @@ const nicknameGenerator = require('../../lib/nicknameGenerator');
 const nicknameSet = require('../../constants/nicknameSet');
 const { kakaoAuth, appleAuth } = require('../../lib/social');
 const { NOT_INCLUDE_EMAIL, NO_USER, INVALID_USER } = require('../../constants/social');
-const slack = require('../../other/slack/slack');
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const { token, social } = req.body;
@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
 
     res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { email, accessToken, refreshToken }));
   } catch (error) {
-    slack.slackWebhook(req, error.message);
+    slack(req, error.message);
     console.log(error);
     functions.logger.error(`[EMAIL SIGNUP ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`);
 
