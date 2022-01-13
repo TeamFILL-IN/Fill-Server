@@ -32,6 +32,8 @@ module.exports = {
   READ_PHOTOS_OF_STYLE_SUCCESS: '스타일별 사진 조회 성공',
   NO_PHOTO_OF_FILM_EXIST: '해당 필름의 사진이 존재하지 않습니다',
   READ_PHOTOS_OF_FILM_SUCCESS: '필름별 사진 조회 성공',
+  NO_PHOTO_OF_STUDIO_EXIST: '해당 스튜디오의 사진이 존재하지 않습니다',
+  READ_PHOTOS_OF_STUDIO_SUCCESS: '스튜디오별 사진 조회 성공',
   
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
