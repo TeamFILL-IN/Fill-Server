@@ -6,7 +6,7 @@ const db = require('../../db/db');
 const { userDB } = require('../../db');
 const jwt = require('../../lib/jwt');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../../constants/jwt');
-const slack = require('../../other/slack/slack');
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const { accesstoken, refreshtoken } = req.headers;
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     // ac token 유효
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_VALID));
   } catch (error) {
-    slack.slackWebhook(req, error.message);
+    slack(req, error.message);
     console.log(error);
     functions.logger.error(`[AUTH ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, accesstoken);
     res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
