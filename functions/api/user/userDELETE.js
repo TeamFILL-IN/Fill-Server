@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { userDB } = require('../../db');
+const slack = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const userId = req.user.id;
@@ -22,6 +23,7 @@ module.exports = async (req, res) => {
 
     res.status(sc.OK).send(success(sc.OK, rm.DELETE_ONE_USER_SUCCESS, deletedUser));
   } catch (error) {
+    slack.slackWebhook(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 
