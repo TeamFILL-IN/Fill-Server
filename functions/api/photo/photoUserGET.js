@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db')
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
 
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_USER_SUCCESS, photosOfUser));    
   } catch (error) {
-
+    slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 
