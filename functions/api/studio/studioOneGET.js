@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { studioDB } = require('../../db');
+const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const { studioId } = req.params;
@@ -20,11 +21,12 @@ module.exports = async (req, res) => {
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_STUDIO_SUCCESS, data));
   } catch (error) {
+    slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 
     res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
   } finally {
-    client.release();    
+    client.release();
   }
 };

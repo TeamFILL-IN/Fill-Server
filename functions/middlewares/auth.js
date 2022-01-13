@@ -6,6 +6,7 @@ const sc = require('../constants/statusCode');
 const rm = require('../constants/responseMessage');
 const { userDB } = require('../db');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
+const { slack } = require('../other/slack/slack');
 
 const auth = async (req, res, next) => {
   const { token } = req.headers;
@@ -31,6 +32,7 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    slack(req, error.message);
     console.log(error);
     functions.logger.error(`[AUTH ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, token);
     res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
