@@ -46,5 +46,15 @@ const getPhotoById = async (client, photoId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 }
 
+const getPhotoByCuration = async (client, photoList) => {
+  const { rows } = await client.query(
+    `
+    SELECT id, low_image_url FROM "Photo" p
+    WHERE id IN (${photoList.join()})
+      AND is_deleted = FALSE
+    `
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+}
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById };
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotoByCuration };

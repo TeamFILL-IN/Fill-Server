@@ -6,7 +6,7 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 
 module.exports = async (req, res) => {
-  const studioId = req.params.id;
+  const { studioId } = req.params;
   if (!studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
