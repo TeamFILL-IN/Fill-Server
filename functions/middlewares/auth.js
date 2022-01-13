@@ -9,6 +9,7 @@ const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
 
 const auth = async (req, res, next) => {
   const { token } = req.headers;
+  
   if (!token) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_EMPTY));
 
   let client;
