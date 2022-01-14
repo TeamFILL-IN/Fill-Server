@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     //테이블에 없으면 post
     if (is_liked == false){   
       const studio = await likeDB.postLike(client, userId, photoId);
-      return res.status(sc.OK).send(success(sc.OK, rm.ADD_LIKE_SUCCESS, studio));
+      return res.status(sc.OK).send(success(sc.OK, rm.ADD_LIKE_SUCCESS));
     }
   } catch (error) {
     slack(req, error.message);
