@@ -1,20 +1,18 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
-const getAllPhotos = async (client, photoNum) => {
+const getAllPhotos = async (client) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
     WHERE is_deleted = FALSE
       ORDER BY created_at DESC
-      LIMIT 10 OFFSET $1
     `,
-    [photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-const getPhotosByStyle = async (client, styleId, photoNum) => {
+const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
@@ -22,23 +20,21 @@ const getPhotosByStyle = async (client, styleId, photoNum) => {
       WHERE f.style_id = $1
       AND is_deleted = FALSE
       ORDER BY created_at DESC
-      LIMIT 10 OFFSET $2
     `,
-    [styleId, photoNum],
+    [styleId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-const getPhotosByFilm = async (client, filmId, photoNum) => {
+const getPhotosByFilm = async (client, filmId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
     WHERE film_id = $1
       AND is_deleted = FALSE
       ORDER BY created_at DESC
-      LIMIT 10 OFFSET $2
     `,
-    [filmId, photoNum],
+    [filmId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
@@ -55,16 +51,15 @@ const getPhotoById = async (client, photoId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 }
 
-const getPhotosByUser = async (client, userId, photoNum) => {
+const getPhotosByUser = async (client, userId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Photo" p
     WHERE user_id = $1
       AND is_deleted = FALSE
       ORDER BY created_at DESC
-      LIMIT 10 OFFSET $2
     `,
-    [userId, photoNum],
+    [userId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
@@ -80,16 +75,15 @@ const getPhotoByCuration = async (client, photoList) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-const getPhotoByStudio = async (client, studioId, photoNum) => {
+const getPhotoByStudio = async (client, studioId) => {
   const { rows } = await client.query(
     `
     SELECT id, image_url FROM "Photo" p
     WHERE studio_id = $1
       AND is_deleted = FALSE
       ORDER BY created_at DESC
-      LIMIT 10 OFFSET $2
     `,
-    [studioId, photoNum],
+    [studioId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
