@@ -18,13 +18,16 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const is_liked = await likeDB.checkLike(client, userId, photoId);   //테이블검사(true, false)
-    console.log('------', is_liked);
-    if (is_liked == true){    //테이블에 있으면 delete
+    //테이블검사(true, false)
+    const is_liked = await likeDB.checkLike(client, userId, photoId);   
+
+    //테이블에 있으면 delete
+    if (is_liked == true){    
       const studio = await likeDB.deleteLike(client, userId, photoId);
       return res.status(sc.OK).send(success(sc.OK, rm.DELETE_LIKE_SUCCESS));
     }
-    if (is_liked == false){   //테이블에 없으면 post
+    //테이블에 없으면 post
+    if (is_liked == false){   
       const studio = await likeDB.postLike(client, userId, photoId);
       return res.status(sc.OK).send(success(sc.OK, rm.ADD_LIKE_SUCCESS, studio));
     }
