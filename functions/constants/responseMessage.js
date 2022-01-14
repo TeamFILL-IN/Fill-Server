@@ -64,6 +64,11 @@ module.exports = {
   READ_RAND_CURATION_SUCCESS: '큐레이션 랜덤 조회 성공',
   READ_ONE_CURATION_SUCCESS: '특정 큐레이션 조회 성공',
   NO_CURATION: '존재하지 않는 큐레이션입니다',
+  
+  //좋아요(하트)
+  ADD_LIKE_SUCCESS: '좋아요 성공',
+  DELETE_LIKE_SUCCESS: '좋아요 취소',
+
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
