@@ -72,7 +72,7 @@ const getPhotosByUser = async (client, userId, photoNum) => {
 const getPhotoByCuration = async (client, photoList) => {
   const { rows } = await client.query(
     `
-    SELECT id, low_image_url FROM "Photo" p
+    SELECT id, image_url FROM "Photo" p
     WHERE id IN (${photoList.join()})
       AND is_deleted = FALSE
     `
@@ -83,7 +83,7 @@ const getPhotoByCuration = async (client, photoList) => {
 const getPhotoByStudio = async (client, studioId, photoNum) => {
   const { rows } = await client.query(
     `
-    SELECT id, low_image_url FROM "Photo" p
+    SELECT id, image_url FROM "Photo" p
     WHERE studio_id = $1
       AND is_deleted = FALSE
       ORDER BY created_at DESC
