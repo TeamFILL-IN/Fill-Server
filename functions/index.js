@@ -11,6 +11,7 @@ const serviceAccount = require('./fill-in-13efb-firebase-adminsdk-g93iy-d395b45d
 const { fail } = require('./lib/util');
 const sc = require('./constants/statusCode');
 const rm = require('./constants/responseMessage');
+const { slack } = require('./other/slack/slack');
 
 dotenv.config();
 
@@ -38,7 +39,8 @@ app.use(cookieParser());
 
 app.use('/api', require('./api'));
 
-app.use('*', (req, res) => {
+app.use('*', (req, res, error) => {
+  slack(req, error.message);
   res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.NOT_FOUND));
 });
 

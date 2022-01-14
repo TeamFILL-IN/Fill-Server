@@ -8,6 +8,9 @@ const { slack } = require('../../other/slack/slack');
 
 module.exports = async (req, res) => {
   const { styleId } = req.params;
+  
+  const { pageNum } = req.query;
+
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
@@ -15,7 +18,9 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId);
+    const photoNum = 10 * ( pageNum - 1 )
+    
+    const photosOfFilmStyle = await photoDB.getPhotosByStyle(client, styleId, photoNum);
 
     if (photosOfFilmStyle.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
 
