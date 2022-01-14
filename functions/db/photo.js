@@ -94,4 +94,18 @@ const getPhotoByStudio = async (client, studioId, photoNum) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotoByCuration, getPhotoByStudio, getPhotosByUser };
+const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
+  const { rows } = await client.query(
+    `
+    INSERT INTO "Photo"
+    (user_id, film_id, studio_id, image_url)
+    VALUES
+    ($1, $2, $3, $4)
+    RETURNING *
+    `,
+    [userId, filmId, studioId, imageUrl]
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+}
+
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotoByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };
