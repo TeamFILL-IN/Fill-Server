@@ -4,9 +4,11 @@ const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 const getAllPhotos = async (client) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-    WHERE is_deleted = FALSE
-      ORDER BY created_at DESC
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
   );
   return convertSnakeToCamel.keysToCamel(rows);
@@ -15,11 +17,12 @@ const getAllPhotos = async (client) => {
 const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-      JOIN "Film" f  ON p.film_id = f.id
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
-      AND is_deleted = FALSE
-      ORDER BY created_at DESC
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
     [styleId],
   );
@@ -29,10 +32,12 @@ const getPhotosByStyle = async (client, styleId) => {
 const getPhotosByFilm = async (client, filmId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-    WHERE film_id = $1
-      AND is_deleted = FALSE
-      ORDER BY created_at DESC
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      WHERE film_id = $1
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
     [filmId],
   );
@@ -42,9 +47,12 @@ const getPhotosByFilm = async (client, filmId) => {
 const getPhotoById = async (client, photoId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-    WHERE id = $1
-      AND is_deleted = FALSE
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      WHERE p.id = $1
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
     [photoId],
   );
@@ -54,22 +62,26 @@ const getPhotoById = async (client, photoId) => {
 const getPhotosByUser = async (client, userId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-    WHERE user_id = $1
-      AND is_deleted = FALSE
-      ORDER BY created_at DESC
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      WHERE user_id = $1
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
     [userId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
-const getPhotoByCuration = async (client, photoList) => {
+const getPhotosByCuration = async (client, photoList) => {
   const { rows } = await client.query(
     `
-    SELECT id, image_url FROM "Photo" p
-    WHERE id IN (${photoList.join()})
-      AND is_deleted = FALSE
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      WHERE p.id IN (${photoList.join()})
+      AND p.is_deleted = FALSE
     `
   );
   return convertSnakeToCamel.keysToCamel(rows);
@@ -78,10 +90,13 @@ const getPhotoByCuration = async (client, photoList) => {
 const getPhotoByStudio = async (client, studioId) => {
   const { rows } = await client.query(
     `
-    SELECT id, image_url FROM "Photo" p
-    WHERE studio_id = $1
-      AND is_deleted = FALSE
-      ORDER BY created_at DESC
+    SELECT s.name AS studio_name, u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      JOIN "Studio" s ON p.studio_id = s.id
+      WHERE studio_id = $1
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
     `,
     [studioId],
   );
@@ -102,4 +117,4 @@ const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 }
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotoByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };
+module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };

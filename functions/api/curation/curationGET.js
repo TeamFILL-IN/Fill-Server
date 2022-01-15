@@ -15,11 +15,11 @@ module.exports = async (req, res) => {
     const curation = await curationDB.getCuration(client);
     if (!curation) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_CURATION));
 
-    const photoList = curation[0].photoList.split(',');
-    const photo = await photoDB.getPhotoByCuration(client, photoList);
-    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const photoList = curation.photoList.split(',');
+    const photos = await photoDB.getPhotosByCuration(client, photoList);
+    if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
-    const data = { curation, photo };
+    const data = { curation, photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_RAND_CURATION_SUCCESS, data));
   } catch (error) {

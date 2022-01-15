@@ -17,11 +17,12 @@ const getAllPhotos = async (client, photoNum) => {
 const getPhotosByStyle = async (client, styleId, photoNum) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "Photo" p
-      JOIN "Film" f  ON p.film_id = f.id
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      LEFT JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
-      AND is_deleted = FALSE
-      ORDER BY created_at DESC
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
       LIMIT 10 OFFSET $2
     `,
     [styleId, photoNum],
