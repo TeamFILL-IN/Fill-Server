@@ -6,6 +6,11 @@ const db = require('../../db/db');
 const { filmDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @필름 스타일별 필름 조회
+ * @desc 필름 스타일 아이디를 받아 해당 종류(컬러, 흑백, 특수, 일회용)의 필름들을 조회합니다
+ */
+
 module.exports = async (req, res) => {
   const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));

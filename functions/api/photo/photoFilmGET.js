@@ -6,6 +6,11 @@ const db = require('../../db/db');
 const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @필름별 사진 조회
+ * @desc 필름 아이디를 받아 해당 필름의 사진들을 조회해요
+ */
+
 module.exports = async (req, res) => {
 
   const { filmId } = req.params;

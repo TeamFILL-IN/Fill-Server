@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
+
 const getAllPhotos = async (client) => {
   const { rows } = await client.query(
     `
@@ -14,6 +15,7 @@ const getAllPhotos = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+// 필름 스타일별 사진 조회
 const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
     `
@@ -29,6 +31,7 @@ const getPhotosByStyle = async (client, styleId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+// 필름별 사진 조회
 const getPhotosByFilm = async (client, filmId) => {
   const { rows } = await client.query(
     `
@@ -44,6 +47,7 @@ const getPhotosByFilm = async (client, filmId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
+// 특정 사진 조회
 const getPhotoById = async (client, photoId) => {
   const { rows } = await client.query(
     `
@@ -59,6 +63,7 @@ const getPhotoById = async (client, photoId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 }
 
+// 유저별 게시 사진 조회
 const getPhotosByUser = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -103,6 +108,7 @@ const getPhotoByStudio = async (client, studioId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 }
 
+// 사진 게시
 const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
   const { rows } = await client.query(
     `
