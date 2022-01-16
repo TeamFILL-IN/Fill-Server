@@ -2,24 +2,20 @@ const functions = require('firebase-functions');
 const jwt = require('jsonwebtoken');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
 
-// secretKey
 const secretKey = process.env.JWT_SECRET;
 
-// access_token option 세팅
 const ac_options = {
   algorithm: process.env.JWT_ALGORITHM,
   expiresIn: process.env.JWT_AC_EXPIRES,
   issuer: process.env.JWT_ISSUER,
 };
 
-// refresh_token option 세팅
 const rf_options = {
   algorithm: process.env.JWT_ALGORITHM,
   expiresIn: process.env.JWT_RF_EXPIRES,
   issuer: process.env.JWT_ISSUER,
 };
 
-// id, email, name, idFirebase가 담긴 JWT를 발급합니다.
 const sign = (user) => {
   const payload = {
     id: user.id,
