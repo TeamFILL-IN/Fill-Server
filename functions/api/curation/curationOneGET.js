@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { curationDB, photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @특정_큐레이션_조회
+ * @desc 특정 큐레이션을 조회해요
+ */
 module.exports = async (req, res) => {
   const { curationId } = req.params;
   if (!curationId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));

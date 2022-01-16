@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { userDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @탈퇴하기
+ * @desc 회원 탈퇴를 진행해요.
+ */
 module.exports = async (req, res) => {
   const userId = req.user.id;
 

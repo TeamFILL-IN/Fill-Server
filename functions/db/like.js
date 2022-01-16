@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
+// 좋아요 추가
 const postLike = async (client, userId, photoId) => {
   const { rows } = await client.query(
     `
@@ -15,6 +16,7 @@ const postLike = async (client, userId, photoId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 좋아요 취소
 const deleteLike = async (client, userId, photoId) => {
   const { rows } = await client.query(
     `
@@ -27,6 +29,7 @@ const deleteLike = async (client, userId, photoId) => {
   return true;
 };
 
+// 좋아요 유무 조회
 const checkLike = async (client, userId, photoId) => {
   const { rows } = await client.query(
     `

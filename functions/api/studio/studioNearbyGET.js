@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @주변_스튜디오_위치_조회
+ * @desc 유저 근처/주변의 스튜디오 위치를 조회해요
+ */
 module.exports = async (req, res) => {
   let client;
 

@@ -24,7 +24,6 @@ if (admin.apps.length === 0) {
   firebase = admin.app();
 }
 
-// initializing
 const app = express();
 app.use(cors());
 
@@ -46,7 +45,7 @@ app.use('*', (req, res, error) => {
 
 exports.app = functions
   .runWith({
-    timeoutSeconds: 300, // 요청을 처리하는 과정이 300초를 초과하면 타임아웃 시키기
-    memory: '512MB', // 서버에 할당되는 메모리
+    timeoutSeconds: 300,
+    memory: '512MB',
   })
   .https.onRequest(app);

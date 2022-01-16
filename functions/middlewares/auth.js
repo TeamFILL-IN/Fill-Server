@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const jwt = require('../lib/jwt');
 const db = require('../db/db');
-const { success, fail } = require('../lib/util');
+const { fail } = require('../lib/util');
 const sc = require('../constants/statusCode');
 const rm = require('../constants/responseMessage');
 const { userDB } = require('../db');
@@ -10,7 +10,7 @@ const { slack } = require('../other/slack/slack');
 
 const auth = async (req, res, next) => {
   const { token } = req.headers;
-  
+
   if (!token) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_EMPTY));
 
   let client;
@@ -29,7 +29,6 @@ const auth = async (req, res, next) => {
 
     if (!user) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.NO_USER));
 
-    // 유저 정보는 req.user 활용할 수 있습니다.
     req.user = user;
     next();
   } catch (error) {

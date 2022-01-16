@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { curationDB, photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @큐레이션_랜덤_조회
+ * @desc 큐레이션을 랜덤으로 조회해요
+ */
 module.exports = async (req, res) => {
   let client;
 

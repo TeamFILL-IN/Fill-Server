@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { likeDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @좋아요_추가_및_삭제
+ * @desc 사진에 대한 좋아요를 추가하거나 삭제해요
+ */
 module.exports = async (req, res) => {
   const userId = req.user.id;
   if (!userId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
@@ -29,7 +33,7 @@ module.exports = async (req, res) => {
     //테이블에 없으면 post
     if (is_liked == false){   
       const studio = await likeDB.postLike(client, userId, photoId);
-      return res.status(sc.OK).send(success(sc.OK, rm.ADD_LIKE_SUCCESS, studio));
+      return res.status(sc.OK).send(success(sc.OK, rm.ADD_LIKE_SUCCESS));
     }
   } catch (error) {
     slack(req, error.message);

@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @스튜디오_검색
+ * @desc 스튜디오를 검색해요
+ */
 module.exports = async (req, res) => {
   const keyword = req.query.keyword;
   if (!keyword) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_KEYWORD));
