@@ -3,7 +3,7 @@ const jwt = require('./jwt');
 const { NOT_INCLUDE_EMAIL, INVALID_USER } = require('../constants/social');
 
 const kakaoAuth = async (kakaoAccessToken) => {
-  console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 유저 정보를 확인합니다.');
+  console.log('🔑 Kakao 토큰을 Kakao API server에 요청하여 유저 정보를 확인할게요.');
 
   try {
     const user = await axios({

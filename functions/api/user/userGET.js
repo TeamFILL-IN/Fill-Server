@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { userDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @내_정보_조회하기
+ * @desc 마이페이지에서의 내 정보를 조회해요.
+ */
 module.exports = async (req, res) => {
   const userId = req.user.id;
 
