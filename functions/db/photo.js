@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
-
+// 전체 사진 조회
 const getAllPhotos = async (client) => {
   const { rows } = await client.query(
     `
