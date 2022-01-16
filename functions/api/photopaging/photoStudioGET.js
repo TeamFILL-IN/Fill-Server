@@ -3,34 +3,38 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { studioDB } = require('../../db');
+const { photopagingDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
-/**
- * @특정_스튜디오_조회
- * @desc 특정 스튜디오에 대한 상세 정보를 조회해요
- */
 module.exports = async (req, res) => {
-  const { studioId } = req.params;
-  if (!studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
+  const { studioId } = req.params;
+
+  const { pageNum } = req.query;
+
+  if (!studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  
   let client;
 
   try {
     client = await db.connect(req);
 
-    const studio = await studioDB.getStudioById(client, studioId);
-    if (!studio) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
-    const data = { studio };
+    const photoNum = 10 * ( pageNum - 1 )
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_STUDIO_SUCCESS, data));
+    const photos = await photopagingDB.getPhotoByStudio(client, studioId, photoNum);
+    if (photos.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STUDIO_EXIST));
+    const data = { photos };
+
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STUDIO_SUCCESS, data));
+  
   } catch (error) {
     slack(req, error.message);
+
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
 
-    res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   } finally {
     client.release();
-  }
+  };
 };

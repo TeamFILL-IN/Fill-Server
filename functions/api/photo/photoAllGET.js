@@ -6,17 +6,17 @@ const db = require('../../db/db');
 const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @전체 사진 조회
+ * @desc 게시된 전체 사진들을 조회해요
+ */
 module.exports = async (req, res) => {
   let client;
-
-  const { pageNum } = req.query;
 
   try {
     client = await db.connect(req);
 
-    const photoNum = 10 * ( pageNum - 1 )
-
-    const photos = await photoDB.getAllPhotos(client, photoNum);
+    const photos = await photoDB.getAllPhotos(client);
     
     if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
     

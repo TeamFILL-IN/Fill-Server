@@ -3,33 +3,30 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { photoDB } = require('../../db');
+const { photopagingDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @사진 첨부
- * @desc 필름 사진을 첨부해요
+ * @전체 사진 조회
+ * @desc 게시된 전체 사진들을 조회해요
  */
 module.exports = async (req, res) => {
-
-  const userId = req.user.id;
-
-  const { filmId, studioId } = req.body;
-
-  const imageUrl = req.imageUrls;
-
-  if (!filmId || !studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-
   let client;
+
+  const { pageNum } = req.query;
 
   try {
     client = await db.connect(req);
-  
-    const photo = await photoDB.addPhoto(client, userId,  Number(filmId), Number(studioId), imageUrl);
 
-    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const photoNum = 10 * ( pageNum - 1 )
 
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
+    const photos = await photopagingDB.getAllPhotos(client, photoNum);
+    
+    if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    
+    const data = { photos };
+
+    res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_PHOTOS_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

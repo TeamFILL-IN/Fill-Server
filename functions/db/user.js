@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
+// 전체 유저 조회
 const getAllUsers = async (client) => {
   const { rows } = await client.query(
     `
@@ -11,6 +12,7 @@ const getAllUsers = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+// Id로 특정 유저 조회
 const getUserById = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -23,6 +25,7 @@ const getUserById = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// refreshToken으로 특정 유저 조회
 const getUserByRfToken = async (client, refreshToken) => {
   const { rows } = await client.query(
     `
@@ -35,6 +38,7 @@ const getUserByRfToken = async (client, refreshToken) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 유저 존재 유무 판별
 const checkAlreadyUser = async (client, social, email) => {
   const { rows } = await client.query(
     `
@@ -46,6 +50,7 @@ const checkAlreadyUser = async (client, social, email) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 특정 유저 refreshToken 조회
 const getUserRefreshToken = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -58,6 +63,7 @@ const getUserRefreshToken = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 유저 재가입
 const updateIsDeleted = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -72,6 +78,7 @@ const updateIsDeleted = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 유저 refreshToken 업데이트
 const updateRefreshToken = async (client, userId, refreshToken) => {
   const { rows } = await client.query(
     `
@@ -85,6 +92,7 @@ const updateRefreshToken = async (client, userId, refreshToken) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 특정 유저 삭제
 const deleteUser = async (client, userId) => {
   const { rows } = await client.query(
     `
@@ -99,6 +107,7 @@ const deleteUser = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+// 유저 가입
 const addUser = async (client, social, email, nickname, refreshToken) => {
   const { rows } = await client.query(
     `

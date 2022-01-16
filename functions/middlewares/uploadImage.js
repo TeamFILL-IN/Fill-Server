@@ -20,19 +20,15 @@ const uploadImage = (req, res, next) => {
 
   let fields = {};
 
-  // req.body로 들어오는 key:value 페어들을 처리
   busboy.on('field', (fieldName, val) => {
     fields[fieldName] = val;
   });
 
-  // req.body로 들어오는 게 파일일 경우 처리
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       return res.status(400).json({ error: 'Wrong file type submitted' });
     }
-    // my.image.png => ['my', 'image', 'png']
     const imageExtension = filename.split('.')[filename.split('.').length - 1];
-    // 32756238461724837.png
     imageFileName = `${dayjs().format('YYYYMMDD_HHmmss_')}${Math.round(Math.random() * 1000000000000).toString()}.${imageExtension}`;
     const filepath = path.join(os.tmpdir(), imageFileName);
     imageToAdd = { imageFileName, filepath, mimetype };
@@ -40,7 +36,6 @@ const uploadImage = (req, res, next) => {
     imagesToUpload.push(imageToAdd);
   });
 
-  // req.body로 들어온 파일들을 Firebase Storage에 업로드
   busboy.on('finish', async () => {
     let promises = [];
     imagesToUpload.forEach((imageToBeUploaded) => {

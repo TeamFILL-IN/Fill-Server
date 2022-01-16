@@ -8,9 +8,13 @@ const jwt = require('../../lib/jwt');
 const nicknameGenerator = require('../../lib/nicknameGenerator');
 const nicknameSet = require('../../constants/nicknameSet');
 const { kakaoAuth, appleAuth } = require('../../lib/social');
-const { NOT_INCLUDE_EMAIL, NO_USER, INVALID_USER } = require('../../constants/social');
+const { NOT_INCLUDE_EMAIL, INVALID_USER } = require('../../constants/social');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @소셜_로그인_회원가입
+ * @desc 소셜 로그인 및 회원가입을 진행해요.
+ */
 module.exports = async (req, res) => {
   const { token, social } = req.body;
 

@@ -8,9 +8,13 @@ const jwt = require('../../lib/jwt');
 const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../../constants/jwt');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @토큰_재발급
+ * @desc 만료된 토큰을 재발급해요.
+ */
 module.exports = async (req, res) => {
   const { accesstoken, refreshtoken } = req.headers;
-  // accessToken이 없을 시의 에러 처리입니다.
+
   if (!accesstoken || !refreshtoken) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_EMPTY));
 
   let client;
@@ -18,7 +22,6 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    // jwt를 해독하고 인증 절차를 거칩니다.
     const decodedToken = jwt.verify(accesstoken);
 
     if (decodedToken === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
@@ -28,13 +31,13 @@ module.exports = async (req, res) => {
 
       if (refresh === TOKEN_INVALID) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.TOKEN_INVALID));
       if (refresh === TOKEN_EXPIRED) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.ALL_TOKEN_EXPIRED));
-      // ac token 만료, rf token 유효
+
       const user = await userDB.getUserByRfToken(client, refreshtoken);
       const { accessToken } = jwt.sign(user);
 
       return res.status(sc.OK).send(success(sc.OK, rm.CREATE_TOKEN, { accessToken, refreshtoken }));
     }
-    // ac token 유효
+
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.TOKEN_VALID));
   } catch (error) {
     slack(req, error.message);
