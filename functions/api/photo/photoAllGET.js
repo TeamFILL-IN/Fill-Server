@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @전체 사진 조회
+ * @desc 게시된 전체 사진들을 조회해요
+ */
 module.exports = async (req, res) => {
   let client;
 

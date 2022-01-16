@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
+
+// 필름 스타일별 필름 조회
 const getFilmsByStyle = async (client,styleId) => {
   const { rows } = await client.query(
     `
