@@ -9,7 +9,7 @@ const getCuration = async (client) => {
     ORDER BY RANDOM() LIMIT 1
     `,
   );
-  return convertSnakeToCamel.keysToCamel(rows);
+  return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
 // 특정 스튜디오 정보
