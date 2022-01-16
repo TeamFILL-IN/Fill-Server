@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 
-// 스튜디오 모든 정보
+// 전체 스튜디오 조회
 const getAllStudio = async (client) => {
   const { rows } = await client.query(
     `
@@ -12,7 +12,7 @@ const getAllStudio = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-// 특정 스튜디오 정보
+// 특정 스튜디오 조회
 const getStudioById = async (client, studioId) => {
   const { rows } = await client.query(
     `
@@ -25,7 +25,7 @@ const getStudioById = async (client, studioId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-// 지도에서 보여지는 주변 스튜디오 위치정보
+// 주변 스튜디오 위치 조회
 const getNearbyStudio = async (client) => {
   const { rows } = await client.query(
     `
@@ -36,7 +36,7 @@ const getNearbyStudio = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-// 검색한 스튜디오 정보
+// 스튜디오 검색
 const searchStudio = async (client, keyword) => {
   const { rows } = await client.query(
     `

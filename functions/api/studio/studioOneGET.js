@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @특정_스튜디오_조회
+ * @desc 특정 스튜디오에 대한 상세 정보를 조회해요
+ */
 module.exports = async (req, res) => {
   const { studioId } = req.params;
   if (!studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));

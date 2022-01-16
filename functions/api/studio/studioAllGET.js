@@ -6,6 +6,10 @@ const db = require('../../db/db');
 const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
+/**
+ * @전체_스튜디오_조회
+ * @desc 전체 스튜디오를 조회해요
+ */
 module.exports = async (req, res) => {
   let client;
 
