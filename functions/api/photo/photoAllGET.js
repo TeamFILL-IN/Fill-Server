@@ -17,9 +17,7 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const photos = await photoDB.getAllPhotos(client);
-    
     if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
-    
     const data = { photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_PHOTOS_SUCCESS, data));

@@ -26,7 +26,6 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
   
     const photo = await photoDB.addPhoto(client, userId,  Number(filmId), Number(studioId), imageUrl);
-
     if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
     res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
