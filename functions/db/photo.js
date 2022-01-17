@@ -15,6 +15,21 @@ const getAllPhotos = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+// 최신순 사진 조회 ( 8개 )
+const getLatestPhotos = async (client) => {
+  const { rows } = await client.query(
+    `
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+      JOIN "Film" f ON p.film_id = f.id
+      JOIN "User" u ON p.user_id = u.id
+      AND p.is_deleted = FALSE
+      ORDER BY p.created_at DESC
+      LIMIT 8
+    `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
+
 // 필름 스타일별 사진 조회
 const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
@@ -45,7 +60,7 @@ const getPhotosByFilm = async (client, filmId) => {
     [filmId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 // 특정 사진 조회
 const getPhotoById = async (client, photoId) => {
@@ -61,7 +76,7 @@ const getPhotoById = async (client, photoId) => {
     [photoId],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
-}
+};
 
 // 유저별 게시 사진 조회
 const getPhotosByUser = async (client, userId) => {
@@ -77,7 +92,7 @@ const getPhotosByUser = async (client, userId) => {
     [userId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 const getPhotosByCuration = async (client, photoList) => {
   const { rows } = await client.query(
@@ -87,10 +102,10 @@ const getPhotosByCuration = async (client, photoList) => {
       JOIN "User" u ON p.user_id = u.id
       WHERE p.id IN (${photoList.join()})
       AND p.is_deleted = FALSE
-    `
+    `,
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 const getPhotoByStudio = async (client, studioId) => {
   const { rows } = await client.query(
@@ -106,7 +121,7 @@ const getPhotoByStudio = async (client, studioId) => {
     [studioId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 // 사진 게시
 const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
@@ -118,9 +133,9 @@ const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
     ($1, $2, $3, $4)
     RETURNING *
     `,
-    [userId, filmId, studioId, imageUrl]
+    [userId, filmId, studioId, imageUrl],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
-}
+};
 
-module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };
+module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };
