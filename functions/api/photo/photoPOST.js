@@ -4,12 +4,11 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db');
-
 const { slack } = require('../../other/slack/slack');
 
 /**
  * @사진 첨부
- * @desc 필름 사진을 첨부해요
+ * @desc 사진을 게시해요.
  */
 module.exports = async (req, res) => {
   const userId = req.user.id;
