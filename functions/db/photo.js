@@ -8,7 +8,7 @@ const getAllPhotos = async (client) => {
     SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
-      AND p.is_deleted = FALSE
+      WHERE p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
   );
@@ -22,7 +22,7 @@ const getLatestPhotos = async (client) => {
     SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
-      AND p.is_deleted = FALSE
+      WHERE p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 8
     `,
@@ -94,6 +94,7 @@ const getPhotosByUser = async (client, userId) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
+// 큐레이션내 사진 조회
 const getPhotosByCuration = async (client, photoList) => {
   const { rows } = await client.query(
     `
@@ -107,7 +108,8 @@ const getPhotosByCuration = async (client, photoList) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-const getPhotoByStudio = async (client, studioId) => {
+// 스튜디오 사진 조회
+const getPhotosByStudio = async (client, studioId) => {
   const { rows } = await client.query(
     `
     SELECT s.name AS studio_name, u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
@@ -138,4 +140,4 @@ const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotoByStudio, getPhotosByUser, addPhoto };
+module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto };

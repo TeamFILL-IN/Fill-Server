@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db');
+const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
@@ -11,7 +12,6 @@ const { slack } = require('../../other/slack/slack');
  * @desc 필름 아이디를 받아 해당 필름의 사진들을 조회해요
  */
 module.exports = async (req, res) => {
-
   const { filmId } = req.params;
   if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const photos = await photoDB.getPhotosByFilm(client, filmId);
-    if (photos.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
+    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
     const data = { photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_FILM_SUCCESS, data));
