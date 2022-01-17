@@ -8,7 +8,7 @@ const { slack } = require('../../other/slack/slack');
 
 /**
  * @사진 첨부
- * @desc 사진을 게시해요.
+ * @desc 필름 사진을 첨부해요
  */
 module.exports = async (req, res) => {
   const userId = req.user.id;
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   if (!filmId || !studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
-
+  console.log(userId)
   try {
     client = await db.connect(req);
   
