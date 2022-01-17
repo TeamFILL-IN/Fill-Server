@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { curationDB, photoDB } = require('../../db');
+const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
@@ -24,7 +25,7 @@ module.exports = async (req, res) => {
 
     const photoList = curation.photoList.split(',');
     const photos = await photoDB.getPhotosByCuration(client, photoList);
-    if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
     const data = { curation, photos };
 

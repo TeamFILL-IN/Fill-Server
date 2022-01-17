@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photopagingDB } = require('../../db');
+const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
@@ -11,11 +12,8 @@ const { slack } = require('../../other/slack/slack');
  * @desc 유저 아이디를 받아 해당 유저가 게시한 사진들을 조회해요
  */
 module.exports = async (req, res) => {
-
-  const { userId } = req.params;
-
   const { pageNum } = req.query;
-
+  const { userId } = req.params;
   if (!userId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   
   let client;
@@ -26,11 +24,11 @@ module.exports = async (req, res) => {
 
     const photoNum = 10 * ( pageNum - 1 )
 
-    const photosOfUser = await photopagingDB.getPhotosByUser(client, userId, photoNum);
+    const photos = await photopagingDB.getPhotosByUser(client, userId, photoNum);
+    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const data = { photos }
 
-    if (photosOfUser.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
-
-    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_USER_SUCCESS, photosOfUser));    
+    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_USER_SUCCESS, data));    
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
