@@ -9,6 +9,7 @@ const { firebaseConfig } = require('../config/firebaseClient');
 const util = require('../lib/util');
 const statusCode = require('../constants/statusCode');
 const responseMessage = require('../constants/responseMessage');
+const { slack } = require('../other/slack/slack');
 
 const uploadImage = (req, res, next) => {
   const busboy = new BusBoy({ headers: req.headers });
@@ -16,7 +17,8 @@ const uploadImage = (req, res, next) => {
   let imageFileName = {};
   let imagesToUpload = [];
   let imageToAdd = {};
-  let imageUrls;
+  let imageFileNameForDB;
+  let imageUrls, imageUrl;
 
   let fields = {};
 
@@ -28,8 +30,17 @@ const uploadImage = (req, res, next) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       return res.status(400).json({ error: 'Wrong file type submitted' });
     }
+
     const imageExtension = filename.split('.')[filename.split('.').length - 1];
-    imageFileName = `${dayjs().format('YYYYMMDD_HHmmss_')}${Math.round(Math.random() * 1000000000000).toString()}.${imageExtension}`;
+    const rand = Math.round(Math.random() * 1000000000000).toString();
+
+    // Firebase
+    imageFileName = `${dayjs().format('YYYYMMDD_HHmmss_')}${rand}.${imageExtension}`;
+
+    // DB
+    imageFileNameForDB = `${dayjs().format('YYYYMMDD_HHmmss_')}${rand}_720x720.${imageExtension}`;
+    imageUrl = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileNameForDB}?alt=media`;
+
     const filepath = path.join(os.tmpdir(), imageFileName);
     imageToAdd = { imageFileName, filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));
@@ -39,7 +50,7 @@ const uploadImage = (req, res, next) => {
   busboy.on('finish', async () => {
     let promises = [];
     imagesToUpload.forEach((imageToBeUploaded) => {
-      imageUrls= `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageToBeUploaded.imageFileName}?alt=media`;
+      imageUrls = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageToBeUploaded.imageFileName}?alt=media`;
       promises.push(
         admin
           .storage()
@@ -58,9 +69,10 @@ const uploadImage = (req, res, next) => {
     try {
       await Promise.all(promises);
       req.body = fields;
-      req.imageUrls = imageUrls;
+      req.imageUrls = imageUrl;
       next();
     } catch (err) {
+      slack(req, err.message);
       console.error(err);
       functions.logger.error(`[FILE UPLOAD ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`);
       return res.status(500).json(util.fail(statusCode.INTERNAL_SERVER_ERROR, responseMessage.INTERNAL_SERVER_ERROR));
