@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
     const data = { photos };
 
-    res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_USER_SUCCESS, data)); 
+    res.status(sc.OK).send(success(sc.OK, rm.READ_MYPAGE_PHOTO_SUCCESS, data)); 
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

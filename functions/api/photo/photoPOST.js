@@ -4,6 +4,7 @@ const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db');
+
 const { slack } = require('../../other/slack/slack');
 
 /**
@@ -11,13 +12,14 @@ const { slack } = require('../../other/slack/slack');
  * @desc 필름 사진을 첨부해요
  */
 module.exports = async (req, res) => {
+
   const userId = req.user.id;
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
   if (!filmId || !studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
-  console.log(userId)
+
   try {
     client = await db.connect(req);
   
