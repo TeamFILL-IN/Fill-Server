@@ -7,7 +7,7 @@ const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @사진 첨부
+ * @사진_첨부
  * @desc 사진을 게시해요
  */
 module.exports = async (req, res) => {

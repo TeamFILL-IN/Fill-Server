@@ -8,7 +8,7 @@ const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @유저별 사진 조회
+ * @유저별_사진_조회
  * @desc 유저 아이디를 받아 해당 유저가 게시한 사진들을 조회해요
  */
 module.exports = async (req, res) => {

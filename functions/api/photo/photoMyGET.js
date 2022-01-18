@@ -8,7 +8,7 @@ const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @마이페이지 사진 조회
+ * @마이페이지_사진_조회
  * @desc 내가 게시한 사진들을 조회해요
  */
 module.exports = async (req, res) => {
