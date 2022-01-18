@@ -12,6 +12,8 @@ const { slack } = require('../../other/slack/slack');
  * @desc 게시된 전체 사진들을 조회해요
  */
 module.exports = async (req, res) => {
+  const userId = req.user.id;
+
   let client;
 
   try {
@@ -19,6 +21,22 @@ module.exports = async (req, res) => {
 
     const photos = await photoDB.getAllPhotos(client);
     if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+
+    const likes = await photoDB.isLikedPhoto(client, userId);
+    for (let j = 0; j < photos.length; j++) {
+      for (let k = 0; k < likes.length; k++) {
+        if (photos[j].photoId == likes[k].photoId) {
+          photos[j].isLiked = true;
+          break;
+        } else {
+          photos[j].isLiked = false;
+        };
+      };
+      if (!photos[j].isLiked) {
+        photos[j].isLiked = false;
+      };
+    };
+
     const data = { photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_PHOTOS_SUCCESS, data));
