@@ -11,7 +11,6 @@ const { slack } = require('../../other/slack/slack');
  * @desc 사진을 게시해요
  */
 module.exports = async (req, res) => {
-
   const userId = req.user.id;
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
