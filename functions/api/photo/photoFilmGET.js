@@ -24,18 +24,18 @@ module.exports = async (req, res) => {
     const photos = await photoDB.getPhotosByFilm(client, filmId);
     if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
     const likes = await photoDB.isLikedPhoto(client, userId);
-    
+
     for (let j = 0; j < photos.length; j++) {
       for (let k = 0; k < likes.length; k++) {
         if (photos[j].photoId == likes[k].photoId) {
-          photos[j].isLiked = "True";
+          photos[j].isLiked = true;
           break;
         } else {
-          photos[j].isLiked = "False";
+          photos[j].isLiked = false;
         };
       };
       if (!photos[j].isLiked) {
-        photos[j].isLiked = "False";
+        photos[j].isLiked = false;
       };
     };
 

@@ -29,14 +29,14 @@ module.exports = async (req, res) => {
     for (let j = 0; j < photos.length; j++) {
       for (let k = 0; k < likes.length; k++) {
         if (photos[j].photoId == likes[k].photoId) {
-          photos[j].isLiked = "True";
+          photos[j].isLiked = true;
           break;
         } else {
-          photos[j].isLiked = "False";
+          photos[j].isLiked = false;
         };
       };
       if (!photos[j].isLiked) {
-        photos[j].isLiked = "False";
+        photos[j].isLiked = false;
       };
     };
 
