@@ -11,6 +11,8 @@ const { slack } = require('../../other/slack/slack');
  * @desc 큐레이션을 랜덤으로 조회해요
  */
 module.exports = async (req, res) => {
+  const userId = req.user.id;
+  
   let client;
 
   try {
@@ -22,6 +24,23 @@ module.exports = async (req, res) => {
     const photoList = curation.photoList.split(',');
     const photos = await photoDB.getPhotosByCuration(client, photoList);
     if (!photos) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+
+    const likes = await photoDB.isLikedPhoto(client, userId);
+    
+    for (let j = 0; j < photos.length; j++) {
+      for (let k = 0; k < likes.length; k++) {
+        if (photos[j].photoId == likes[k].photoId) {
+          photos[j].isLiked = "True";
+          break;
+        } else {
+          photos[j].isLiked = "False";
+        };
+      };
+      if (!photos[j].isLiked) {
+        photos[j].isLiked = "False";
+      };
+    };
+
 
     const data = { curation, photos };
 
