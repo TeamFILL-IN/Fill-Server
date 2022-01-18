@@ -13,9 +13,8 @@ const { slack } = require('../../other/slack/slack');
 module.exports = async (req, res) => {
 
   const userId = req.user.id;
-  const { filmId, studioId } = req.body;
   const imageUrl = req.imageUrls;
-
+  const { filmId, studioId } = req.body;
   if (!filmId || !studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
