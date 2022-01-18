@@ -8,8 +8,9 @@ router.get('/', auth, require('./photoAllGET'));
 router.get('/latest', auth, require('./photoLatestGET'));
 router.get('/style/:styleId', auth, require('./photoStyleGET'));
 router.get('/film/:filmId', auth, require('./photoFilmGET'));
-router.get('/:photoId', auth, require('./photoGET'));
+router.get('/user', auth, require('./photoMyGET'));
 router.get('/user/:userId', auth, require('./photoUserGET'));
+router.get('/:photoId', auth, require('./photoGET'));
 router.get('/studio/:studioId', auth, require('./photoStudioGET'));
 router.post('/', auth, uploadImage, require('./photoPOST'));
 
