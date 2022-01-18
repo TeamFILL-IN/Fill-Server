@@ -8,7 +8,7 @@ const _ = require('lodash');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @필름 종류별 사진 조회
+ * @필름_종류별_사진_조회
  * @desc 필름 스타일아이디를 받아 해당 필름종류(컬러, 흑백, 특수, 일회용)의 사진들을 조회해요
  */
 module.exports = async (req, res) => {
