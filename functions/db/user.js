@@ -39,13 +39,13 @@ const getUserByRfToken = async (client, refreshToken) => {
 };
 
 // 유저 존재 유무 판별
-const checkAlreadyUser = async (client, social, email) => {
+const checkAlreadyUser = async (client, social, idKey) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "User" u
-    WHERE social = $1 and email = $2
+    WHERE social = $1 and id_key = $2
     `,
-    [social, email],
+    [social, idKey],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
