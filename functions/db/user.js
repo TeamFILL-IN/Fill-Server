@@ -39,13 +39,13 @@ const getUserByRfToken = async (client, refreshToken) => {
 };
 
 // 유저 존재 유무 판별
-const checkAlreadyUser = async (client, social, email) => {
+const checkAlreadyUser = async (client, social, idKey) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "User" u
-    WHERE social = $1 and email = $2
+    WHERE social = $1 and id_key = $2
     `,
-    [social, email],
+    [social, idKey],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
@@ -108,17 +108,17 @@ const deleteUser = async (client, userId) => {
 };
 
 // 유저 가입
-const addUser = async (client, social, email, nickname, refreshToken) => {
+const addUser = async (client, social, email, nickname, refreshToken, idKey) => {
   const { rows } = await client.query(
     `
     INSERT INTO "User"
-    (social, email, nickname, refresh_token)
+    (social, email, nickname, refresh_token, id_key)
     VALUES
-    ($1, $2, $3, $4)
+    ($1, $2, $3, $4, $5)
     RETURNING *
     `,
 
-    [social, email, nickname, refreshToken],
+    [social, email, nickname, refreshToken, idKey],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
