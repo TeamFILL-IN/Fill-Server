@@ -33,7 +33,10 @@ module.exports = async (req, res) => {
     switch (social) {
       case 'kakao':
         user = await kakaoAuth(token);
-        if (user === NOT_INCLUDE_EMAIL) email = '';
+        if (user === NOT_INCLUDE_EMAIL) {
+          const rand = Math.round(Math.random() * 1000000000000).toString();
+          email = rand;
+        }
         if (user === INVALID_USER) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
         email = user.email;
         break;
