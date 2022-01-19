@@ -2,15 +2,5 @@
   "functions": {
     "source": "functions",
     "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"]
-  },
-  "hosting": {
-    "public": "functions",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "app"
-      }
-    ]
   }
 }
