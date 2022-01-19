@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
         user = await kakaoAuth(token);
         if (user === NOT_INCLUDE_EMAIL) email = '';
         if (user === INVALID_USER) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
+        email = user.email;
         break;
       case 'apple':
         user = await appleAuth(token);
