@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const filmsOfStyle = await filmDB.getFilmsByStyle(client, styleId);
+    const films = await filmDB.getFilmsByStyle(client, styleId);
+    if (films.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.INVALID_STYLE_ID));
+    const data = { films };
 
-    if (filmsOfStyle.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.INVALID_STYLE_ID));
-
-    res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, filmsOfStyle));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
