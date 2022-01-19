@@ -36,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.disable('etag');
+app.set('etag', false);
 
 app.use('/api', require('./api'));
 
