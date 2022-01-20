@@ -15,8 +15,7 @@ module.exports = async (req, res) => {
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
   if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-  // Get by URL
-  
+
   let client;
 
   try {
