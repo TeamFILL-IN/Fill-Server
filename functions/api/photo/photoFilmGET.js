@@ -40,8 +40,6 @@ module.exports = async (req, res) => {
       };
     };
 
-
-
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_FILM_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);

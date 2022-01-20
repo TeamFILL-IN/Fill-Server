@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 
     const photos = await photopagingDB.getPhotosByStudio(client, studioId, photoNum);
     const data = { photos };
-    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO,data));
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STUDIO_SUCCESS, data));
   

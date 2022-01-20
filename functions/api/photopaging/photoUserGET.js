@@ -27,8 +27,10 @@ module.exports = async (req, res) => {
 
     const photos = await photopagingDB.getPhotosByUser(client, userId, photoNum);
     const data = { photos }
-    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
-
+    if (_.isEmpty(photos)) {
+      
+      return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
+    }
     const likes = await photoDB.isLikedPhoto(client, myId);
     
     for (let j = 0; j < photos.length; j++) {
