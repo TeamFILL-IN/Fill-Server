@@ -5,6 +5,7 @@ const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
+const _ = require('lodash');
 
 /**
  * @스튜디오_검색
@@ -21,7 +22,7 @@ module.exports = async (req, res) => {
 
     const studios = await studioDB.searchStudio(client, keyword);
     const data = { studios };
-    if (!studios) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO_SEARCHED,data));
+    if (_.isEmpty(studios)) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO_SEARCHED,data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_STUDIO_SEARCH_SUCCESS, data));
   } catch (error) {
