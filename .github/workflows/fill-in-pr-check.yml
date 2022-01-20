@@ -42,7 +42,7 @@ jobs:
             await github.pulls.createReview({
               ...context.repo,
               pull_number,
-              body:"👉 코드를 다시 확인해주세요.",
+              body:"👉 Jest 코드 또는 서버 코드를 다시 확인해주세요.",
               event: "REQUEST_CHANGES"
             })
             await github.pulls.update({
