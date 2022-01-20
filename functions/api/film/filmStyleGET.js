@@ -13,7 +13,6 @@ const _ = require('lodash');
  */
 module.exports = async (req, res) => {
   const { styleId } = req.params;
-  if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   if (styleId > 4) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
 
   let client;
@@ -23,7 +22,7 @@ module.exports = async (req, res) => {
 
     const films = await filmDB.getFilmsByStyle(client, styleId);
     const data = { films };
-    if (_.isEmpty(films)) return res.status(sc.OK).send(success(sc.OK, rm.INVALID_STYLE_ID, data));
+    if (_.isEmpty(films)) return res.status(sc.OK).send(success(sc.OK, rm.NO_FILM_OF_STYLE, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, data));
   } catch (error) {
