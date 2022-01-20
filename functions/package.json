@@ -15,7 +15,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "apple-auth": "^1.0.7",
     "axios": "^0.24.0",
     "busboy": "^0.3.1",
     "cookie-parser": "^1.4.5",
@@ -31,7 +30,6 @@
     "firebase-functions": "^3.11.0",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
-    "image-size": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "multer": "^1.4.3",

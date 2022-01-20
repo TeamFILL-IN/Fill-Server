@@ -14,11 +14,11 @@ jobs:
     steps:
       - name: ✅ 체크아웃
         uses: actions/checkout@v2
-      - name: 🐕 의존성 주입과 eslint를 사용해 코드에 문제가 없는지 확인합니다.
+      - name: 🐕 의존성 주입과 eslint, jest를 사용해 코드에 문제가 없는지 확인합니다.
         run: |
           cd functions
           npm i
           npm run lint
-
+          npm run test
         env:
           CI: true
