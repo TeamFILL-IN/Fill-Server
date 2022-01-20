@@ -5,6 +5,7 @@ const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
+const { size } = require('../../lib/size');
 
 /**
  * @사진_첨부
@@ -15,11 +16,16 @@ module.exports = async (req, res) => {
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
   if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-
+  // Get by URL
+  const isGaro = await size(imageUrl)
+  console.log(isGaro)
+  
   let client;
 
   try {
     client = await db.connect(req);
+
+
 
     const photo = await photoDB.addPhoto(client, userId, Number(filmId), Number(studioId), imageUrl);
     if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
