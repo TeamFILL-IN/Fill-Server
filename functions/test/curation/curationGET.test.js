@@ -5,7 +5,7 @@ describe('GET /curation', () => {
   test('Response 테스트', async () => {
     const res = await req(app)
       .get('/api/curation')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOm51bGwsImlhdCI6MTY0MjY1MDU5NCwiZXhwIjoxNjQzODYwMTk0LCJpc3MiOiJmaWxsaW4ifQ.8yUvS3jZ3Zur6nnDqA0g1Afg1BpsTpHc6UZP3flRW3A');
+      .set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toBeTruthy();
