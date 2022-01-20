@@ -3,28 +3,24 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { photoDB } = require('../../db');
+const { studioDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @사진_첨부
- * @desc 사진을 게시해요
+ * @전체_스튜디오_조회
+ * @desc 전체 스튜디오를 조회해요
  */
 module.exports = async (req, res) => {
-  const userId = req.user.id;
-  const imageUrl = req.imageUrls;
-  const { filmId, studioId } = req.body;
-  if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-
   let client;
 
   try {
     client = await db.connect(req);
 
-    const photo = await photoDB.addPhoto(client, userId, Number(filmId), Number(studioId), imageUrl);
-    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const studios = await studioDB.getAllStudio(client);
+    const data = { studios };
+    if (!studios) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO, data));
 
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_STUDIO_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

@@ -20,8 +20,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const studio = await studioDB.getStudioById(client, studioId);
-    if (!studio) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
     const data = { studio };
+    if (!studio) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_STUDIO_SUCCESS, data));
   } catch (error) {

@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
   const { pageNum } = req.query;
   const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  if (styleId > 4) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
 
   let client;
 
@@ -25,7 +26,8 @@ module.exports = async (req, res) => {
     const photoNum = 10 * ( pageNum - 1 )
     
     const photos = await photopagingDB.getPhotosByStyle(client, styleId, photoNum);
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const data = { photos }
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
 
     const likes = await photoDB.isLikedPhoto(client, userId);
     
@@ -42,8 +44,6 @@ module.exports = async (req, res) => {
         photos[j].isLiked = false;
       };
     };
-
-    const data = { photos }
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_STYLE_SUCCESS, data));
   } catch (error) {
