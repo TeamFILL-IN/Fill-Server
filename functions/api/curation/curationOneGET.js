@@ -26,21 +26,21 @@ module.exports = async (req, res) => {
 
     const photoList = curation.photoList.split(',');
     const photos = await photoDB.getPhotosByCuration(client, photoList);
-    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, photos));
+    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
     const likes = await photoDB.isLikedPhoto(client, userId);
     
     for (let j = 0; j < photos.length; j++) {
       for (let k = 0; k < likes.length; k++) {
         if (photos[j].photoId == likes[k].photoId) {
-          photos[j].isLiked = true;
+          photos[j].isLiked = "True";
           break;
         } else {
-          photos[j].isLiked = false;
+          photos[j].isLiked = "False";
         };
       };
       if (!photos[j].isLiked) {
-        photos[j].isLiked = false;
+        photos[j].isLiked = "False";
       };
     };
 
