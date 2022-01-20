@@ -2,7 +2,7 @@
 
 name: FILL-IN PR Check
 
-on:
+"on":
   pull_request:
     branches:
       - develop
@@ -14,11 +14,23 @@ jobs:
     steps:
       - name: ✅ 체크아웃
         uses: actions/checkout@v2
-      - name: 🐕 의존성 주입과 eslint를 사용해 코드에 문제가 없는지 확인합니다.
+      - name: ⚙️ 환경변수를 설정합니다.
+         run: |
+            cd functions
+            touch .env
+            echo "${{ secrets.ENV_VARS }}" >> .env
+      - name: 🔑 Firebase Admin 시크릿키를 JSON으로 생성합니다.
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "fill-in-13efb-firebase-adminsdk-g93iy-d395b45dac.json"
+          json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FILL_IN_13EFB }}
+          dir: "functions/"
+      - name: 🐕 의존성 주입과 eslint, jest를 사용해 코드에 문제가 없는지 확인합니다.
         run: |
           cd functions
           npm i
           npm run lint
-
+          npm run test
         env:
           CI: true
