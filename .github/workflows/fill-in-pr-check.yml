@@ -15,10 +15,10 @@ jobs:
       - name: ✅ 체크아웃
         uses: actions/checkout@v2
       - name: ⚙️ 환경변수를 설정합니다.
-         run: |
-            cd functions
-            touch .env
-            echo "${{ secrets.ENV_VARS }}" >> .env
+        run: |
+          cd functions
+          touch .env
+          echo "${{ secrets.ENV_VARS }}" >> .env
       - name: 🔑 Firebase Admin 시크릿키를 JSON으로 생성합니다.
         id: create-json
         uses: jsdaniell/create-json@1.1.2
