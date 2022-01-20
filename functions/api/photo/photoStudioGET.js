@@ -9,7 +9,7 @@ const { slack } = require('../../other/slack/slack');
 
 /**
  * @스튜디오별_사진_조회
- * @desc 특정 스튜디오에서 현상한 사진을 조회해요
+ * @desc 특정 스튜디오에서 현상한 사진을 조회해요.
  */
 module.exports = async (req, res) => {
   const { studioId } = req.params;

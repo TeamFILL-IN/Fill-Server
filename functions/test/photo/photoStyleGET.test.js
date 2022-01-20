@@ -3,7 +3,7 @@ const req = require('supertest');
 
 describe('GET /photo/style', () => {
   test('필름 종류별 사진 조회 테스트', async (done) => {
-    const style_id = 34;
+    const style_id = 2;
     const res = await req(app).get(`/api/photo/style/${style_id}`).set('token', process.env.TEST_TOKEN);
     // expect([1, -2, 22]).toContain(someNumber);
 

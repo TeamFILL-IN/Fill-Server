@@ -13,7 +13,7 @@ const { slack } = require('../../other/slack/slack');
  */
 module.exports = async (req, res) => {
   const userId = req.user.id;
-  const { styleId } = req.params;  
+  const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   if (styleId > 4) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
 
