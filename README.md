@@ -65,36 +65,126 @@
 
 <br>
 
-## 🦖 Our ERD
+## 🦖 Our ERD & Directory Tree
 
+<details>
+<summary>🗄 FILL-IN ERD</summary>
 <img src="https://user-images.githubusercontent.com/54793607/148735695-1e9df66c-a9f9-4a87-b8d0-2354ce5bed78.png">
+</details>
 
-<br>
-
-## 🦖 Our Directory Tree
+<details>
+<summary>📦 FILL-IN Directory Tree</summary>
 
 ```bash
+FILL-IN
 ├── README.md
 ├── firebase.json
-├── .github
-│   ├── workflows
-│   │   ├── fill-in-cicd.yml
-│   │   └── fill-in-pr-check.yml
 └── functions
     ├── api
-    │   ├── index.js
-    │   └── user
-    │       └── index.js
+    │   ├── auth
+    │   │   ├── authPOST.js
+    │   │   ├── authTokenGET.js
+    │   │   └── index.js
+    │   ├── curation
+    │   │   ├── curationGET.js
+    │   │   ├── curationOneGET.js
+    │   │   └── index.js
+    │   ├── film
+    │   │   ├── filmStyleGET.js
+    │   │   └── index.js
+    │   ├── index.js
+    │   ├── like
+    │   │   ├── index.js
+    │   │   └── likePOST.js
+    │   ├── photo
+    │   │   ├── index.js
+    │   │   ├── photoAllGET.js
+    │   │   ├── photoFilmGET.js
+    │   │   ├── photoGET.js
+    │   │   ├── photoLatestGET.js
+    │   │   ├── photoMyGET.js
+    │   │   ├── photoPOST.js
+    │   │   ├── photoStudioGET.js
+    │   │   ├── photoStyleGET.js
+    │   │   └── photoUserGET.js
+    │   ├── photopaging
+    │   │   ├── index.js
+    │   │   ├── photoAllGET.js
+    │   │   ├── photoFilmGET.js
+    │   │   ├── photoStudioGET.js
+    │   │   ├── photoStyleGET.js
+    │   │   └── photoUserGET.js
+    │   ├── studio
+    │   │   ├── index.js
+    │   │   ├── studioNearbyGET.js
+    │   │   ├── studioOneGET.js
+    │   │   └── studioSearchGET.js
+    │   └── user
+    │       ├── index.js
+    │       ├── userDELETE.js
+    │       └── userGET.js
     ├── config
+    │   ├── dbConfig.js
+    │   └── firebaseClient.js
     ├── constants
+    │   ├── jwt.js
+    │   ├── nicknameSet.js
+    │   ├── responseMessage.js
+    │   ├── social.js
+    │   └── statusCode.js
     ├── db
-    ├── FILL-IN-FIREBASE-ADMIN-KEY.json
+    │   ├── curation.js
+    │   ├── db.js
+    │   ├── film.js
+    │   ├── index.js
+    │   ├── like.js
+    │   ├── photo.js
+    │   ├── photopaging.js
+    │   ├── studio.js
+    │   └── user.js
     ├── index.js
     ├── lib
+    │   ├── convertSnakeToCamel.js
+    │   ├── jwt.js
+    │   ├── nicknameGenerator.js
+    │   ├── size.js
+    │   ├── social.js
+    │   └── util.js
     ├── middlewares
+    │   ├── auth.js
+    │   └── uploadImage.js
+    ├── other
+    │   └── slack
+    │       ├── slack.js
+    │       └── slackAPI.js
     ├── package-lock.json
-    └── package.json
+    ├── package.json
+    ├── test
+    │   ├── curation
+    │   │   ├── curationGET.test.js
+    │   │   └── curationOneGET.test.js
+    │   ├── film
+    │   │   └── filmStyleGET.test.js
+    │   ├── like
+    │   │   └── likePOST.test.js
+    │   ├── photo
+    │   │   ├── photoAllGET.test.js
+    │   │   ├── photoFilmGET.test.js
+    │   │   ├── photoGET.test.js
+    │   │   ├── photoLatestGET.test.js
+    │   │   ├── photoStudioGET.test.js
+    │   │   ├── photoStyleGET.test.js
+    │   │   └── photoUserGET.test.js
+    │   ├── studio
+    │   │   ├── studioNearbyGET.test.js
+    │   │   ├── studioOneGET.test.js
+    │   │   └── studioSearchGET.test.js
+    │   └── user
+    │       └── userGET.test.js
+    └── ui-debug.log
 ```
+
+</details>
 
 <br>
 
@@ -102,21 +192,8 @@
 
 ```json
 {
-  "name": "functions",
-  "description": "FILL-IN Server",
-  "scripts": {
-    "lint": "eslint .",
-    "serve": "cross-env NODE_ENV=development firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "16"
-  },
-  "main": "index.js",
   "dependencies": {
+    "axios": "^0.24.0",
     "busboy": "^0.3.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -124,6 +201,7 @@
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.7.0",
     "express": "^4.17.1",
     "firebase": "^9.5.0",
     "firebase-admin": "^9.2.0",
@@ -133,13 +211,17 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "multer": "^1.4.3",
-    "pg": "^8.7.1"
+    "path": "^0.12.7",
+    "pg": "^8.7.1",
+    "probe-image-size": "^7.2.2",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.6.0",
     "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
-  },
-  "private": true
+    "firebase-functions-test": "^0.2.0",
+    "jest": "^25.1.0"
+  }
 }
 ```
