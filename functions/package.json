@@ -36,7 +36,9 @@
     "multer": "^1.4.3",
     "path": "^0.12.7",
     "pg": "^8.7.1",
-    "supertest": "^6.2.2"
+    "probe-image-size": "^7.2.2",
+    "supertest": "^6.2.2",
+    "url-image-size": "^0.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

@@ -1,3 +1,4 @@
+const getImageSize = require ('url-image-size');
 const functions = require('firebase-functions');
 const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
@@ -15,12 +16,13 @@ module.exports = async (req, res) => {
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
   if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-
+  // Get by URL
+  
   let client;
 
   try {
     client = await db.connect(req);
-  
+
     const photo = await photoDB.addPhoto(client, userId,  Number(filmId), Number(studioId), imageUrl);
     if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
     
