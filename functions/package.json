@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest --silent --env=jsdom --runInBand --detectOpenHandles --verbose"
+    "test": "jest --silent --env=jsdom --runInBand --detectOpenHandles --verbose --forceExit"
   },
   "engines": {
     "node": "16"

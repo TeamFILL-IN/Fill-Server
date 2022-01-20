@@ -22,8 +22,9 @@ module.exports = async (req, res) => {
 
     const photoNum = 10 * ( pageNum - 1 )
 
-    const photos = await photopagingDB.getAllPhotos(client, photoNum);   
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const photos = await photopagingDB.getAllPhotos(client, photoNum);
+    const data = { photos };
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
 
     const likes = await photoDB.isLikedPhoto(client, userId);
     
@@ -40,8 +41,6 @@ module.exports = async (req, res) => {
         photos[j].isLiked = false;
       };
     };
-
-    const data = { photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_PHOTOS_SUCCESS, data));
   } catch (error) {

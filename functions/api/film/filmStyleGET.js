@@ -5,6 +5,7 @@ const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { filmDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
+const _ = require('lodash');
 
 /**
  * @필름 스타일별 필름 조회
@@ -13,6 +14,7 @@ const { slack } = require('../../other/slack/slack');
 module.exports = async (req, res) => {
   const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  if (styleId > 4) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
 
   let client;
 
@@ -20,8 +22,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const films = await filmDB.getFilmsByStyle(client, styleId);
-    if (films.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.INVALID_STYLE_ID));
     const data = { films };
+    if (_.isEmpty(films)) return res.status(sc.OK).send(success(sc.OK, rm.INVALID_STYLE_ID, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, data));
   } catch (error) {

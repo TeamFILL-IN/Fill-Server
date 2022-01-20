@@ -22,9 +22,10 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const photos = await photoDB.getPhotosByFilm(client, filmId);
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO_OF_STYLE_EXIST));
+    const data = { photos };
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO_OF_STYLE_EXIST, data));
+    
     const likes = await photoDB.isLikedPhoto(client, userId);
-
     for (let j = 0; j < photos.length; j++) {
       for (let k = 0; k < likes.length; k++) {
         if (photos[j].photoId == likes[k].photoId) {
@@ -38,8 +39,6 @@ module.exports = async (req, res) => {
         photos[j].isLiked = false;
       };
     };
-
-    const data = { photos };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_PHOTOS_OF_FILM_SUCCESS, data));
   } catch (error) {

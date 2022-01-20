@@ -20,8 +20,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const photos = await photoDB.getPhotosByUser(client, userId);
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
     const data = { photos };
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_MYPAGE_PHOTO_SUCCESS, data)); 
   } catch (error) {
