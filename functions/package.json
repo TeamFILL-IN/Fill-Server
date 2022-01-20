@@ -8,14 +8,13 @@
     "start": "npm run shell",
     "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest --env=jsdom"
+    "test": "jest --silent --env=jsdom --runInBand --detectOpenHandles --verbose"
   },
   "engines": {
     "node": "16"
   },
   "main": "index.js",
   "dependencies": {
-    "apple-auth": "^1.0.7",
     "axios": "^0.24.0",
     "busboy": "^0.3.1",
     "cookie-parser": "^1.4.5",
@@ -36,6 +35,7 @@
     "multer": "^1.4.3",
     "path": "^0.12.7",
     "pg": "^8.7.1",
+    "probe-image-size": "^7.2.2",
     "supertest": "^6.2.2"
   },
   "devDependencies": {

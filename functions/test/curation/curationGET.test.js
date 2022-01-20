@@ -3,9 +3,7 @@ const req = require('supertest');
 
 describe('GET /curation', () => {
   test('Response 테스트', async () => {
-    const res = await req(app)
-      .get('/api/curation')
-      .set('token', process.env.TEST_TOKEN);
+    const res = await req(app).get('/api/curation').set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toBeTruthy();
