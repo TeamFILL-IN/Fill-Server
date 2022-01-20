@@ -140,4 +140,15 @@ const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto };
+// 좋아요 체크
+const isLikedPhoto = async (client, userId) => {
+  const { rows } = await client.query(
+    `
+    SELECT user_id, photo_id FROM "Like" l
+      WHERE user_id = $1
+    `,
+    [userId],
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+}
+module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto };

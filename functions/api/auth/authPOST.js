@@ -16,9 +16,9 @@ const { slack } = require('../../other/slack/slack');
  * @desc 소셜 로그인 및 회원가입을 진행해요.
  */
 module.exports = async (req, res) => {
-  const { token, social } = req.body;
+  const { idKey, token, social } = req.body;
 
-  if (!token || !social) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  if (!idKey || !token || !social) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   const nickname = nicknameGenerator(nicknameSet);
 
@@ -27,14 +27,15 @@ module.exports = async (req, res) => {
   try {
     const client = await db.connect();
     let user;
-    let email = '';
+    let email = null;
     let type = 'Login';
 
     switch (social) {
       case 'kakao':
         user = await kakaoAuth(token);
-        if (user === NOT_INCLUDE_EMAIL) email = '';
+        if (user === NOT_INCLUDE_EMAIL) email = null;
         if (user === INVALID_USER) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
+        email = user.email;
         break;
       case 'apple':
         user = await appleAuth(token);
@@ -44,12 +45,12 @@ module.exports = async (req, res) => {
 
     if (!user) res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_SOCIAL));
 
-    const existedUser = await userDB.checkAlreadyUser(client, social, email);
+    const existedUser = await userDB.checkAlreadyUser(client, social, idKey);
 
     if (!existedUser) {
       type = 'Signup';
       const { refreshToken } = jwt.createRefresh();
-      const newUser = await userDB.addUser(client, social, email, nickname, refreshToken);
+      const newUser = await userDB.addUser(client, social, email, nickname, refreshToken, idKey);
       const { accessToken } = jwt.sign(newUser);
       return res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { type, email, nickname, accessToken, refreshToken }));
     }

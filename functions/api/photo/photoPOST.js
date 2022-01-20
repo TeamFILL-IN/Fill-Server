@@ -7,14 +7,14 @@ const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @사진 첨부
- * @desc 사진을 게시해요.
+ * @사진_첨부
+ * @desc 사진을 게시해요
  */
 module.exports = async (req, res) => {
   const userId = req.user.id;
   const imageUrl = req.imageUrls;
   const { filmId, studioId } = req.body;
-  if (!filmId || !studioId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
 
@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
     const photo = await photoDB.addPhoto(client, userId,  Number(filmId), Number(studioId), imageUrl);
     if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
+    
     res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
   } catch (error) {
     slack(req, error.message);

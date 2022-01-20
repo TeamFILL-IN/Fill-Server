@@ -35,6 +35,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.disable('etag');
+app.set('etag', false);
 
 app.use('/api', require('./api'));
 
@@ -44,6 +46,7 @@ app.use('*', (req, res, error) => {
 });
 
 exports.app = functions
+  .region('asia-northeast3')
   .runWith({
     timeoutSeconds: 300,
     memory: '512MB',
