@@ -32,5 +32,22 @@ jobs:
           npm i
           npm run lint
           npm run test
-        env:
-          CI: true
+      - name: 🚨 eslint/jest 검증 실패
+        uses: actions/github-script@0.2.0
+        with:
+          github-token: ${{github.token}}
+          script: |
+            const ref = "${{github.ref}}"
+            const pull_number = Number(ref.split("/")[2])
+            await github.pulls.createReview({
+              ...context.repo,
+              pull_number,
+              body:"👉 코드를 다시 확인해주세요.",
+              event: "REQUEST_CHANGES"
+            })
+            await github.pulls.update({
+              ...context.repo,
+              pull_number,
+              state: "closed"
+            })
+        if: failure()
