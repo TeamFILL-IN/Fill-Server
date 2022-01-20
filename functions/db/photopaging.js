@@ -5,7 +5,7 @@ const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 const getAllPhotos = async (client, photoNum) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.is_deleted = FALSE
@@ -21,7 +21,7 @@ const getAllPhotos = async (client, photoNum) => {
 const getPhotosByStyle = async (client, styleId, photoNum) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
@@ -38,7 +38,7 @@ const getPhotosByStyle = async (client, styleId, photoNum) => {
 const getPhotosByFilm = async (client, filmId, photoNum) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE film_id = $1
@@ -49,7 +49,7 @@ const getPhotosByFilm = async (client, filmId, photoNum) => {
     [filmId, photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 // 유저별 게시 사진 조회
 const getPhotosByUser = async (client, userId, photoNum) => {
@@ -66,7 +66,7 @@ const getPhotosByUser = async (client, userId, photoNum) => {
     [userId, photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 // 스튜디오 사진 조회
 const getPhotosByStudio = async (client, studioId, photoNum) => {
@@ -84,6 +84,6 @@ const getPhotosByStudio = async (client, studioId, photoNum) => {
     [studioId, photoNum],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 
 module.exports = { getAllPhotos, getPhotosByStyle, getPhotosByFilm, getPhotosByStudio, getPhotosByUser };
