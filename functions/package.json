@@ -36,12 +36,7 @@
     "path": "^0.12.7",
     "pg": "^8.7.1",
     "probe-image-size": "^7.2.2",
-<<<<<<< HEAD
-    "supertest": "^6.2.2",
-    "url-image-size": "^0.2.0"
-=======
     "supertest": "^6.2.2"
->>>>>>> ce2dc0f69dc92684c407ca522b7f1bb1539383f4
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

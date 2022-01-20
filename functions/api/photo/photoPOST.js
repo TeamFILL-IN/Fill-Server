@@ -1,4 +1,3 @@
-const getImageSize = require ('url-image-size');
 const functions = require('firebase-functions');
 const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
