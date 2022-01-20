@@ -30,7 +30,6 @@ const uploadImage = (req, res, next) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       return res.status(400).json({ error: 'Wrong file type submitted' });
     }
-
     const imageExtension = filename.split('.')[filename.split('.').length - 1];
     const rand = Math.round(Math.random() * 1000000000000).toString();
 

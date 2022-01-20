@@ -22,6 +22,7 @@ module.exports = {
 
   // 필름 조회
   INVALID_STYLE_ID: '잘못된 스타일 아이디입니다.',
+  NO_FILM_OF_STYLE: '해당 스타일의 필름이 존재하지 않습니다',
   READ_FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
 
   // 사진
@@ -58,6 +59,8 @@ module.exports = {
   READ_ONE_STUDIO_SUCCESS: '스튜디오 조회 성공',
   READ_ALL_STUDIO_SUCCESS: '모든 스튜디오 조회 성공',
   NO_STUDIO: '존재하지 않는 스튜디오입니다',
+  READ_STUDIO_SEARCH_SUCCESS: '검색어가 포함된 스튜디오 조회 성공',
+  NO_STUDIO_SEARCHED: '검색어가 포함된 스튜디오가 없습니다',
 
   // 검색
   NO_KEYWORD: '키워드가 없습니다, 키워드를 입력해주세요',
