@@ -16,9 +16,9 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
-    const studio = await studioDB.getNearbyStudio(client);
-    if (!studio) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
-    const data = { studio };
+    const studios = await studioDB.getNearbyStudio(client);
+    if (!studios) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
+    const data = { studios };
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_STUDIO_SUCCESS, data));
   } catch (error) {
