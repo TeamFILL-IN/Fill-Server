@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /photo/user', () => {
-  test('유저가 게시한 사진 조회 테스트', async () => {
+  test('유저가 게시한 사진 조회 테스트', async (done) => {
     const user_id = 2;
     const res = await req(app).get(`/api/photo/user/${user_id}`).set('token', process.env.TEST_TOKEN);
 
@@ -23,5 +23,6 @@ describe('GET /photo/user', () => {
     expect(filmName).toBeTruthy();
     expect(likeCount).toBeGreaterThanOrEqual(0);
     expect(isLiked).not.toBeNull();
+    done();
   });
 });

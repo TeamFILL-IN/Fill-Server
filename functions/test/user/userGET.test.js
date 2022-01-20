@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /user', () => {
-  test('유저 정보 테스트', async () => {
+  test('유저 정보 테스트', async (done) => {
     const res = await req(app).get('/api/user').set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
@@ -22,5 +22,6 @@ describe('GET /user', () => {
     expect(email).toBeNull();
     expect(createdAt).toBeTruthy();
     expect(idKey).toBeTruthy();
+    done();
   });
 });

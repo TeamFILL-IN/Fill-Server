@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /studio', () => {
-  test('근처 스튜디오 조회 테스트', async () => {
+  test('근처 스튜디오 조회 테스트', async (done) => {
     const studio_id = 1;
     const res = await req(app).get(`/api/studio/detail/${studio_id}`).set('token', process.env.TEST_TOKEN);
 
@@ -25,5 +25,6 @@ describe('GET /studio', () => {
     expect(long).toBeTruthy();
     expect(isDeleted).not.toBeNull();
     expect(site).toBeTruthy();
+    done();
   });
 });

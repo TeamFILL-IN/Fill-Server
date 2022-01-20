@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /photo/studio', () => {
-  test('스튜디오 별 사진 조회 테스트', async () => {
+  test('스튜디오 별 사진 조회 테스트', async (done) => {
     const studio_id = 44;
     const res = await req(app).get(`/api/photo/studio/${studio_id}`).set('token', process.env.TEST_TOKEN);
 
@@ -23,5 +23,6 @@ describe('GET /photo/studio', () => {
     expect(filmName).toBeTruthy();
     expect(likeCount).toBeGreaterThanOrEqual(0);
     expect(isLiked).not.toBeNull();
+    done();
   });
 });

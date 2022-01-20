@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /photo/style', () => {
-  test('필름 종류별 사진 조회 테스트', async () => {
+  test('필름 종류별 사진 조회 테스트', async (done) => {
     const style_id = 34;
     const res = await req(app).get(`/api/photo/style/${style_id}`).set('token', process.env.TEST_TOKEN);
     // expect([1, -2, 22]).toContain(someNumber);
@@ -26,5 +26,6 @@ describe('GET /photo/style', () => {
       expect(likeCount).toBeGreaterThanOrEqual(0);
       expect(isLiked).not.toBeNull();
     }
+    done();
   });
 });
