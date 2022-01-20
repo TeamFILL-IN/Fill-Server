@@ -48,7 +48,7 @@ app.use('*', (req, res, error) => {
 exports.app = functions
   .region('asia-northeast3')
   .runWith({
-    timeoutSeconds: 300,
-    memory: '512MB',
+    timeoutSeconds: 60,
+    memory: '1GB',
   })
   .https.onRequest(app);
