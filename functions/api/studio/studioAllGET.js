@@ -17,8 +17,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const studios = await studioDB.getAllStudio(client);
-    if (!studios) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
     const data = { studios };
+    if (!studios) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_STUDIO_SUCCESS, data));
   } catch (error) {

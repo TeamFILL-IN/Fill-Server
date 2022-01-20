@@ -20,8 +20,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const films = await filmDB.getFilmsByStyle(client, styleId);
-    if (films.length == 0) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.INVALID_STYLE_ID));
     const data = { films };
+    if (films.length == 0) return res.status(sc.OK).send(success(sc.OK, rm.INVALID_STYLE_ID, data));
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_FILMS_OF_STYLE_SUCCESS, data));
   } catch (error) {

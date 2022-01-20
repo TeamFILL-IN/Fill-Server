@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 
     const photoList = curation.photoList.split(',');
     const photos = await photoDB.getPhotosByCuration(client, photoList);
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, photos));
 
     const likes = await photoDB.isLikedPhoto(client, userId);
     

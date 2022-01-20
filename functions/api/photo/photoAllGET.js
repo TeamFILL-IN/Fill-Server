@@ -20,7 +20,8 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const photos = await photoDB.getAllPhotos(client);
-    if (_.isEmpty(photos)) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
+    const data = { photos };
+    if (_.isEmpty(photos)) return res.status(sc.OK).send(success(sc.OK, rm.NO_PHOTO, data));
 
     const likes = await photoDB.isLikedPhoto(client, userId);
     for (let j = 0; j < photos.length; j++) {
@@ -37,7 +38,7 @@ module.exports = async (req, res) => {
       };
     };
 
-    const data = { photos };
+
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_PHOTOS_SUCCESS, data));
   } catch (error) {

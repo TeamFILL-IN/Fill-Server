@@ -20,10 +20,10 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const studios = await studioDB.searchStudio(client, keyword);
-    if (!studios) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_STUDIO));
     const data = { studios };
+    if (!studios) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO_SEARCHED,data));
 
-    res.status(sc.OK).send(success(sc.OK, rm.SEARCH_STUDIO_SUCCESS, data));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_STUDIO_SEARCH_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
