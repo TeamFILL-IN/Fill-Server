@@ -5,7 +5,7 @@ const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 const getAllPhotos = async (client) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.is_deleted = FALSE
@@ -19,7 +19,7 @@ const getAllPhotos = async (client) => {
 const getLatestPhotos = async (client) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.is_deleted = FALSE
@@ -34,7 +34,7 @@ const getLatestPhotos = async (client) => {
 const getPhotosByStyle = async (client, styleId) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
@@ -50,7 +50,7 @@ const getPhotosByStyle = async (client, styleId) => {
 const getPhotosByFilm = async (client, filmId) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE film_id = $1
@@ -126,16 +126,16 @@ const getPhotosByStudio = async (client, studioId) => {
 };
 
 // 사진 게시
-const addPhoto = async (client, userId, filmId, studioId, imageUrl) => {
+const addPhoto = async (client, userId, filmId, studioId, imageUrl, isGaro) => {
   const { rows } = await client.query(
     `
     INSERT INTO "Photo"
-    (user_id, film_id, studio_id, image_url)
+    (user_id, film_id, studio_id, image_url, is_garo)
     VALUES
-    ($1, $2, $3, $4)
+    ($1, $2, $3, $4, $5)
     RETURNING *
     `,
-    [userId, filmId, studioId, imageUrl],
+    [userId, filmId, studioId, imageUrl, isGaro],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
