@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /studio', () => {
-  test('근처 스튜디오 조회 테스트', async () => {
+  test('근처 스튜디오 조회 테스트', async (done) => {
     const res = await req(app).get('/api/studio').set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
@@ -16,5 +16,6 @@ describe('GET /studio', () => {
     expect(id).toBeTruthy();
     expect(lati).toBeTruthy();
     expect(long).toBeTruthy();
+    done();
   });
 });
