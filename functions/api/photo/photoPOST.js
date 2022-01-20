@@ -20,12 +20,11 @@ module.exports = async (req, res) => {
 
   try {
     client = await db.connect(req);
-  
-    const photo = await photoDB.addPhoto(client, userId,  Number(filmId), Number(studioId), imageUrl);
+
+    const photo = await photoDB.addPhoto(client, userId, Number(filmId), Number(studioId), imageUrl);
     if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
 
-    
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
+    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

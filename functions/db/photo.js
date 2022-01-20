@@ -150,5 +150,5 @@ const isLikedPhoto = async (client, userId) => {
     [userId],
   );
   return convertSnakeToCamel.keysToCamel(rows);
-}
+};
 module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto };

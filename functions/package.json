@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest --env=jsdom"
+    "test": "jest --silent --env=jsdom --runInBand --detectOpenHandles --verbose"
   },
   "engines": {
     "node": "16"
@@ -31,11 +31,13 @@
     "firebase-functions": "^3.11.0",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "image-size": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "multer": "^1.4.3",
     "path": "^0.12.7",
     "pg": "^8.7.1",
+    "probe-image-size": "^7.2.2",
     "supertest": "^6.2.2"
   },
   "devDependencies": {
