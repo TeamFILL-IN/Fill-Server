@@ -10,7 +10,7 @@ describe('POST /like', () => {
 
     const { message, status, success } = res.body;
     expect(res.statusCode).toBe(200);
-    expect(message).toEqual("좋아요 성공");
+    expect(message).toBeTruthy();
     expect(success).toEqual(true);
   });
 });
