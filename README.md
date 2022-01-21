@@ -71,7 +71,7 @@
 
 <details>
 <summary>🗄 FILL-IN ERD</summary>
-<img src="https://user-images.githubusercontent.com/54793607/148735695-1e9df66c-a9f9-4a87-b8d0-2354ce5bed78.png">
+<img src="https://user-images.githubusercontent.com/54793607/150489398-da6fc9ec-e04a-4d3d-b811-5be0aeb31b6b.png">
 </details>
 
 <details>
