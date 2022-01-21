@@ -22,6 +22,7 @@ module.exports = {
 
   // 필름 조회
   INVALID_STYLE_ID: '잘못된 스타일 아이디입니다.',
+  NO_FILM_OF_STYLE: '해당 스타일의 필름이 존재하지 않습니다',
   READ_FILMS_OF_STYLE_SUCCESS: '스타일 별 필름 조회 성공',
 
   // 사진
