@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
 
   try {
     const client = await db.connect();
+    console.log(client);
     let user;
     let email = null;
     let type = 'Login';
@@ -52,7 +53,7 @@ module.exports = async (req, res) => {
       const { refreshToken } = jwt.createRefresh();
       const newUser = await userDB.addUser(client, social, email, nickname, refreshToken, idKey);
       const { accessToken } = jwt.sign(newUser);
-      return res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { type, email, nickname, accessToken, refreshToken }));
+      res.status(sc.CREATED).send(success(sc.CREATED, rm.CREATED_USER, { type, email, nickname, accessToken, refreshToken }));
     }
 
     const { refreshToken } = jwt.createRefresh();
@@ -60,7 +61,6 @@ module.exports = async (req, res) => {
 
     if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
     await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
-
     res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { type, email, accessToken, refreshToken }));
   } catch (error) {
     slack(req, error.message);
