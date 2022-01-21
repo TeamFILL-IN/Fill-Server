@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /curation/detail/:curationId', () => {
-  test('Response 테스트', async (done) => {
+  test('특정 큐레이션 조회 테스트', async (done) => {
     const curationId = 1;
     const res = await req(app).get(`/api/curation/detail/${curationId}`).set('token', process.env.TEST_TOKEN);
 

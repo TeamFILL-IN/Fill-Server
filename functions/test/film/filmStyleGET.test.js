@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /film/:styleId', () => {
-  test('Response 테스트', async (done) => {
+  test('스타일별 필름 조회 테스트', async (done) => {
     const style_id = 1;
     const res = await req(app).get(`/api/film/${style_id}`).set('token', process.env.TEST_TOKEN);
 

@@ -2,7 +2,7 @@ const { app } = require('../../index');
 const req = require('supertest');
 
 describe('GET /photo', () => {
-  test('Response 테스트', async (done) => {
+  test('전체 사진 조회 테스트', async (done) => {
     const res = await req(app).get(`/api/photo`).set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
