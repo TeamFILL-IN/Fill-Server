@@ -1,6 +1,12 @@
 <!-- @format -->
 
-## Fill - in your film, FILL-IN Server
+## FILL-IN Server
+
+<p>
+<img src="https://img.shields.io/github/languages/top/TeamFILL-IN/FILL-Server?color=DC4F1C&labelColor=010101">
+<img src="https://img.shields.io/github/languages/code-size/TeamFILL-IN/FILL-Server?color=DC4F1C&labelColor=010101">
+<img src="https://img.shields.io/github/repo-size/TeamFILL-IN/FILL-Server?color=DC4F1C&labelColor=010101">
+</p>
 
 > SOPT 29th APPJAM - TEAM FILL-IN ✨
 > 2022.01.02 ~
