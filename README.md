@@ -46,6 +46,13 @@
 <br>
 <Hr>
 
+## 🦖 Our Architecture
+
+![Architecture](https://user-images.githubusercontent.com/68213343/150557137-c10eca48-b127-4801-82d1-5427d4a64c1f.png)
+
+<br>
+<Hr>
+
 ## 🦖 Our functions
 
 |   func   |               detail               | developer | done |

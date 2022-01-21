@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
   const { pageNum } = req.query;
   const { filmId } = req.params;
   if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  if (pageNum == 0) return res.status(sc.BAD_REQUEST.send(fail(sc.BAD_REQUEST, rm.WRONG_PAGENUM)));
 
   let client;
 
