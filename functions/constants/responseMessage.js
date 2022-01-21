@@ -87,4 +87,7 @@ module.exports = {
 
   // 인증
   NO_AUTH_HEADER: 'Authorization 헤더가 없습니다.',
+
+  // 페이징
+  WRONG_PAGENUM: '잘못된 페이지 번호입니다.'
 };
