@@ -19,7 +19,7 @@ const getAllPhotos = async (client) => {
 const getLatestPhotos = async (client) => {
   const { rows } = await client.query(
     `
-    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
+    SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.is_deleted = FALSE
