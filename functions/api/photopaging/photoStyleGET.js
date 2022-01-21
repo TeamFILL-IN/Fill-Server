@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   const { styleId } = req.params;
   if (!styleId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   if (styleId > 4) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_STYLE_ID));
-  if (pageNum == 0) return res.status(sc.BAD_REQUEST.send(fail(sc.BAD_REQUEST, rm.WRONG_PAGENUM)));
+  if (pageNum == 0) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.WRONG_PAGENUM));
 
 
   let client;
