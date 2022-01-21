@@ -11,7 +11,7 @@
     "test": "jest --silent --env=jsdom --runInBand --detectOpenHandles --verbose --forceExit"
   },
   "engines": {
-    "node": "16"
+    "node": "14"
   },
   "main": "index.js",
   "dependencies": {
