@@ -7,6 +7,8 @@
 
 <img src="https://user-images.githubusercontent.com/54793607/148735296-5a950533-8031-43ab-bd2b-841a3c4c6914.jpg">
 
+<img src="https://user-images.githubusercontent.com/54793607/150477388-7589d8f1-7a20-49d8-a3e8-0cef7a0a3392.gif">
+
 <p align="center">
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FTeamFILL-IN%2FFill-Server&count_bg=%23000000&title_bg=%23FFB300&icon=googlelens.svg&icon_color=%23000000&title=FILLIN&edge_flat=true"/></a>
 </p>
@@ -69,7 +71,7 @@
 
 <details>
 <summary>🗄 FILL-IN ERD</summary>
-<img src="https://user-images.githubusercontent.com/54793607/148735695-1e9df66c-a9f9-4a87-b8d0-2354ce5bed78.png">
+<img src="https://user-images.githubusercontent.com/54793607/150489398-da6fc9ec-e04a-4d3d-b811-5be0aeb31b6b.png">
 </details>
 
 <details>
