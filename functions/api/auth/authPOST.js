@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
     if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
     await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
 
-    res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { type, email, accessToken, refreshToken }));
+    return res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { type, email, accessToken, refreshToken }));
   } catch (error) {
     slack(req, error.message);
     console.log(error);
