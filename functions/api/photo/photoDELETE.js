@@ -8,8 +8,8 @@ const { slack } = require('../../other/slack/slack');
 const { storageDelete } = require('../../lib/storageDelete');
 
 /**
- * @특정_사진_조회
- * @desc 사진 아이디를 받아 해당 사진의 정보를 조회해요
+ * @사진_삭제
+ * @desc 사진 아이디를 받아 해당 사진을 삭제해요
  */
 module.exports = async (req, res) => {
   const { photoId } = req.params;

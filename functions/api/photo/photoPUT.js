@@ -7,8 +7,8 @@ const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
 
 /**
- * @특정_사진_조회
- * @desc 사진 아이디를 받아 해당 사진의 정보를 조회해요
+ * @사진정보_수정
+ * @desc 사진 아이디를 받아 해당 사진의 정보를 수정해요
  */
 module.exports = async (req, res) => {
   const { photoId } = req.params;
