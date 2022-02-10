@@ -1,4 +1,5 @@
 const { initializeApp } = require('firebase/app');
+const { getStorage } = require('firebase/storage');
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -11,5 +12,6 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
 
-module.exports = { firebaseApp, firebaseConfig };
+module.exports = { firebaseApp, firebaseConfig, storage };
