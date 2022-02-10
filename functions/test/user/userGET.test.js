@@ -12,9 +12,9 @@ describe('GET /user', () => {
     const { user } = res.body.data;
     const { id, social, nickname, imageUrl, refreshToken, isDeleted, updatedAt, email, createdAt, idKey } = user;
 
-    expect(id).toBe(2);
+    expect(id).toBe(9);
     expect(social).toBe('kakao');
-    expect(nickname).toBe('따듯한 상어');
+    expect(nickname).toBe('찰칵찰칵 이필린');
     expect(imageUrl).toBeTruthy();
     expect(refreshToken).toBeTruthy();
     expect(isDeleted).not.toBeNull();
