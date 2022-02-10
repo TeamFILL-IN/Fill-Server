@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     client = await db.connect(req);
 
     const updatedPhoto = await photoDB.updatePhoto(client, filmId, studioId, photoId);
-    if (!updatedPhoto) return res.status(sc.OK).send(success(sc.BAD_REQUEST, rm.UPDATE_FAILED,));
+    if (!updatedPhoto) return res.status(sc.OK).send(success(sc.BAD_REQUEST, rm.NO_PHOTO,));
 
     res.status(sc.OK).send(success(sc.OK, rm.UPDATE_ONE_PHOTO_SUCCESS, updatedPhoto));
   } catch (error) {

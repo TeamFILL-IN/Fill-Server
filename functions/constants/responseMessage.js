@@ -41,7 +41,6 @@ module.exports = {
   READ_MYPAGE_PHOTO_SUCCESS: '마이페이지 사진 조회 성공',
   DELETE_PHOTO_SUCCESS: '사진 삭제 성공',
   UPDATE_ONE_PHOTO_SUCCESS: '사진 정보 업데이트 성공',
-  UPDATE_FAILED: '사진 정보 업데이트 실패',
 
 
   // 유저
