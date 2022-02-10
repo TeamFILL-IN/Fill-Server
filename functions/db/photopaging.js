@@ -25,7 +25,6 @@ const getPhotosByStyle = async (client, styleId, photoNum) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 10 OFFSET $2
     `,
@@ -42,7 +41,6 @@ const getPhotosByFilm = async (client, filmId, photoNum) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE film_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 10 OFFSET $2
     `,
@@ -59,7 +57,6 @@ const getPhotosByUser = async (client, userId, photoNum) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE user_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 10 OFFSET $2
     `,
@@ -77,7 +74,6 @@ const getPhotosByStudio = async (client, studioId, photoNum) => {
       JOIN "User" u ON p.user_id = u.id
       JOIN "Studio" s ON p.studio_id = s.id
       WHERE studio_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 10 OFFSET $2
     `,

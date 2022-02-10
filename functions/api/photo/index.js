@@ -13,5 +13,6 @@ router.get('/user/:userId', auth, require('./photoUserGET'));
 router.get('/:photoId', auth, require('./photoGET'));
 router.get('/studio/:studioId', auth, require('./photoStudioGET'));
 router.post('/', auth, uploadImage, require('./photoPOST'));
-
+router.delete('/:photoId', auth, require('./photoDELETE'));
+router.put('/:photoId', auth, require('./photoPUT'));
 module.exports = router;
