@@ -151,4 +151,43 @@ const isLikedPhoto = async (client, userId) => {
   );
   return convertSnakeToCamel.keysToCamel(rows);
 };
-module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto };
+
+const deletePhoto = async (client, photoId) => {
+  const { rows } = await client.query(
+    `
+    DELETE FROM "Photo" p
+    WHERE id = $1
+    RETURNING *
+    `,
+    [photoId],
+  );
+
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const updatePhoto = async (client, filmId, studioId, photoId) => {
+  const { rows: existingRows } = await client.query(
+    `
+    SELECT * FROM "Photo" p
+    WHERE id = $1
+    `,
+    [photoId],
+  );
+
+  if (existingRows.length === 0) return false;
+
+  const data = _.merge({}, convertSnakeToCamel.keysToCamel(existingRows[0]), { filmId, studioId });
+
+  const { rows } = await client.query(
+    `
+    UPDATE "Photo" p
+    SET film_id = $1, studio_id = $2, updated_at = now()
+    WHERE id = $3
+    RETURNING * 
+    `,
+    [data.filmId, data.studioId, photoId],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto, deletePhoto, updatePhoto };
