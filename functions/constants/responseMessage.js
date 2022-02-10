@@ -74,6 +74,10 @@ module.exports = {
   ADD_LIKE_SUCCESS: '좋아요 성공',
   DELETE_LIKE_SUCCESS: '좋아요 취소',
 
+  //북마크
+  ADD_BOOKMARK_SUCCESS: '북마크 성공',
+  DELETE_BOOKMARK_SUCCESS: '북마크 취소',
+
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',
 
