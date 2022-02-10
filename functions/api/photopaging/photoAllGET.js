@@ -14,6 +14,7 @@ const { slack } = require('../../other/slack/slack');
 module.exports = async (req, res) => {
   const userId = req.user.id;
   const { pageNum } = req.query;
+  if (pageNum == 0) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.WRONG_PAGENUM));
 
   let client;
 
