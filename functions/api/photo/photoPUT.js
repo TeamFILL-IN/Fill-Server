@@ -5,7 +5,6 @@ const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
 const { photoDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
-const { updatePhoto } = require('../../db/photo');
 
 /**
  * @특정_사진_조회
