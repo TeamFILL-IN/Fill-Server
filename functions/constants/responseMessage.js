@@ -96,5 +96,9 @@ module.exports = {
   NO_AUTH_HEADER: 'Authorization 헤더가 없습니다.',
 
   // 페이징
-  WRONG_PAGENUM: '잘못된 페이지 번호입니다.'
+  WRONG_PAGENUM: '잘못된 페이지 번호입니다.',
+
+  // 건의/제보하기
+  SEND_OP_SUCCESS: '건의하기 성공',
+  SEND_SU_MAIL_SUCCESS: '제보하기 성공',
 };

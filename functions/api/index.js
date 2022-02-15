@@ -9,6 +9,7 @@ router.use('/photo', require('./photo'));
 router.use('/photopaging', require('./photopaging'));
 router.use('/curation', require('./curation'));
 router.use('/like', require('./like'));
+router.use('/contact', require('./contact'));
 router.use('/bookmark', require('./bookmark'));
 
 module.exports = router;
