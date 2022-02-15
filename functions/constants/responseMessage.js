@@ -39,6 +39,9 @@ module.exports = {
   NO_PHOTO_OF_STUDIO_EXIST: '해당 스튜디오의 사진이 존재하지 않습니다',
   READ_PHOTOS_OF_STUDIO_SUCCESS: '스튜디오별 사진 조회 성공',
   READ_MYPAGE_PHOTO_SUCCESS: '마이페이지 사진 조회 성공',
+  DELETE_PHOTO_SUCCESS: '사진 삭제 성공',
+  UPDATE_ONE_PHOTO_SUCCESS: '사진 정보 업데이트 성공',
+
 
   // 유저
   READ_ONE_USER_SUCCESS: '유저 조회 성공',
@@ -73,6 +76,10 @@ module.exports = {
   //좋아요(하트)
   ADD_LIKE_SUCCESS: '좋아요 성공',
   DELETE_LIKE_SUCCESS: '좋아요 취소',
+
+  //북마크
+  ADD_BOOKMARK_SUCCESS: '북마크 성공',
+  DELETE_BOOKMARK_SUCCESS: '북마크 취소',
 
   // 서버 내 오류
   INTERNAL_SERVER_ERROR: '서버 내 오류',

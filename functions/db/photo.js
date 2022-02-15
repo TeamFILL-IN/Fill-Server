@@ -8,7 +8,6 @@ const getAllPhotos = async (client) => {
     SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count, is_garo FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
-      WHERE p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
   );
@@ -22,7 +21,6 @@ const getLatestPhotos = async (client) => {
     SELECT u.nickname, u.image_url AS user_image_url, p.id AS photo_id, p.image_url, film_id, f.name AS film_name, like_count FROM "Photo" p
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
-      WHERE p.is_deleted = FALSE
       ORDER BY p.created_at DESC
       LIMIT 8
     `,
@@ -38,7 +36,6 @@ const getPhotosByStyle = async (client, styleId) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE f.style_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
     [styleId],
@@ -54,7 +51,6 @@ const getPhotosByFilm = async (client, filmId) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE film_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
     [filmId],
@@ -70,7 +66,6 @@ const getPhotoById = async (client, photoId) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
     [photoId],
@@ -86,7 +81,6 @@ const getPhotosByUser = async (client, userId) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE user_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
     [userId],
@@ -102,7 +96,6 @@ const getPhotosByCuration = async (client, photoList) => {
       JOIN "Film" f ON p.film_id = f.id
       JOIN "User" u ON p.user_id = u.id
       WHERE p.id IN (${photoList.join()})
-      AND p.is_deleted = FALSE
     `,
   );
   return convertSnakeToCamel.keysToCamel(rows);
@@ -117,7 +110,6 @@ const getPhotosByStudio = async (client, studioId) => {
       JOIN "User" u ON p.user_id = u.id
       JOIN "Studio" s ON p.studio_id = s.id
       WHERE studio_id = $1
-      AND p.is_deleted = FALSE
       ORDER BY p.created_at DESC
     `,
     [studioId],
@@ -151,4 +143,43 @@ const isLikedPhoto = async (client, userId) => {
   );
   return convertSnakeToCamel.keysToCamel(rows);
 };
-module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto };
+
+const deletePhoto = async (client, photoId) => {
+  const { rows } = await client.query(
+    `
+    DELETE FROM "Photo" p
+    WHERE id = $1
+    RETURNING *
+    `,
+    [photoId],
+  );
+
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const updatePhoto = async (client, filmId, studioId, photoId) => {
+  const { rows: existingRows } = await client.query(
+    `
+    SELECT * FROM "Photo" p
+    WHERE id = $1
+    `,
+    [photoId],
+  );
+
+  if (existingRows.length === 0) return false;
+
+  const data = _.merge({}, convertSnakeToCamel.keysToCamel(existingRows[0]), { filmId, studioId });
+
+  const { rows } = await client.query(
+    `
+    UPDATE "Photo" p
+    SET film_id = $1, studio_id = $2, updated_at = now()
+    WHERE id = $3
+    RETURNING * 
+    `,
+    [data.filmId, data.studioId, photoId],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+module.exports = { getAllPhotos, getLatestPhotos, getPhotosByStyle, getPhotosByFilm, getPhotoById, getPhotosByCuration, getPhotosByStudio, getPhotosByUser, addPhoto, isLikedPhoto, deletePhoto, updatePhoto };
