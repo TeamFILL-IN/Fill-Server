@@ -17,7 +17,7 @@ const getStudioById = async (client, studioId) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "Studio" s
-    WHERE id = $1
+    WHERE id = $1  
       AND is_deleted = FALSE
     `,
     [studioId],
@@ -47,4 +47,17 @@ const searchStudio = async (client, keyword) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-module.exports = { getAllStudio, getStudioById, getNearbyStudio, searchStudio};
+//북마크한 스튜디오 전체 조회
+const getBookmarkStudio = async (client) => {
+  const { rows } = await client.query(
+    `
+    SELECT s.id, s.name, s.address FROM "Studio" s
+      JOIN "Bookmark" b ON s.id = b.studio_id 
+      JOIN "User" u ON u.id = b.user_id
+      ORDER BY b.id DESC
+      `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
+
+module.exports = { getAllStudio, getStudioById, getNearbyStudio, searchStudio, getBookmarkStudio};

@@ -6,7 +6,7 @@ describe('GET /user', () => {
     const res = await req(app).get('/api/user').set('token', process.env.TEST_TOKEN);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toBeTruthy();
+    expect(res.body).toBeTruthy(); 
     expect(res.body.data).toBeTruthy();
 
     const { user } = res.body.data;
