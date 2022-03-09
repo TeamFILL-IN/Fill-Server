@@ -1,6 +1,7 @@
 const express = require('express');
 const { auth } = require('../../middlewares/auth');
 const uploadImage = require('../../middlewares/uploadImage');
+const uploadImages = require('../../middlewares/uploadImageS3');
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ router.get('/user/:userId', auth, require('./photoUserGET'));
 router.get('/:photoId', auth, require('./photoGET'));
 router.get('/studio/:studioId', auth, require('./photoStudioGET'));
 router.post('/', auth, uploadImage, require('./photoPOST'));
+router.post('/S3', auth, uploadImages, require('./photoS3POST'));
 router.delete('/:photoId', auth, require('./photoDELETE'));
 router.put('/:photoId', auth, require('./photoPUT'));
+
 module.exports = router;
