@@ -3,31 +3,24 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { photoDB } = require('../../db');
+const { studioDB, BookmarkDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
-const { size } = require('../../lib/size');
 
 /**
- * @사진_첨부
- * @desc 사진을 게시해요
+ * @북마크_스튜디오_조회
+ * @desc 북마크한 모든 스튜디오의 정보를 조회해요(북마크한 순으로)
  */
 module.exports = async (req, res) => {
-  const userId = req.user.id;
-  const imageUrl = req.imageUrls;
-  const { filmId, studioId } = req.body;
-  if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-
   let client;
 
   try {
     client = await db.connect(req);
 
-    const isGaro = await size(imageUrl);
-    const photo = await photoDB.addPhoto(client, userId, Number(filmId), Number(studioId), imageUrl, isGaro);
+    const studios = await studioDB.getBookmarkStudio(client);
+    const data = { studios };
+    if (!studios) return res.status(sc.OK).send(success(sc.OK, rm.NO_STUDIO, data));
 
-    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
-
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
+    res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_STUDIO_SUCCESS, data));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

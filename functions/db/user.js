@@ -123,4 +123,89 @@ const addUser = async (client, social, email, nickname, refreshToken, idKey) => 
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-module.exports = { getAllUsers, getUserById, getUserByRfToken, checkAlreadyUser, getUserRefreshToken, updateIsDeleted, updateRefreshToken, deleteUser, addUser };
+const updateUserNickname = async (client, userId, nickname) => {
+  const { rows: existingRows } = await client.query(
+    `
+    SELECT * FROM "User"
+    WHERE id = $1
+       AND is_deleted = FALSE
+    `,
+    [userId],
+  );
+
+  if (existingRows.length === 0) return false;
+
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET nickname = $2, updated_at = now()
+    WHERE id = $1
+    RETURNING * 
+    `,
+    [userId, nickname],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const updateUserCamera = async (client, userId, camera) => {
+  const { rows: existingRows } = await client.query(
+    `
+    SELECT * FROM "User"
+    WHERE id = $1
+       AND is_deleted = FALSE
+    `,
+    [userId],
+  );
+
+  if (existingRows.length === 0) return false;
+
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET camera = array_append(camera,$2), updated_at = now()
+    WHERE id = $1
+    RETURNING * 
+    `,
+    [userId, camera],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+const deleteUserCamera = async (client, userId, camera_index) => {
+  const { rows: existingRows } = await client.query(
+    `
+    SELECT * FROM "User"
+    WHERE id = $1
+       AND is_deleted = FALSE
+    `,
+    [userId],
+  );
+
+  if (existingRows.length === 0) return false;
+
+  const { rows } = await client.query(
+    `
+    UPDATE "User" u
+    SET camera = array_remove(camera,camera[$2]), updated_at = now()
+    WHERE id = $1
+    RETURNING * 
+    `,
+    [userId, Number(camera_index)],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  getUserByRfToken,
+  checkAlreadyUser,
+  getUserRefreshToken,
+  updateIsDeleted,
+  updateRefreshToken,
+  deleteUser,
+  addUser,
+  updateUserNickname,
+  updateUserCamera,
+  deleteUserCamera,
+};

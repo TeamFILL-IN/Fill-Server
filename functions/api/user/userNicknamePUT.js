@@ -3,31 +3,28 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const db = require('../../db/db');
-const { photoDB } = require('../../db');
+const { userDB } = require('../../db');
 const { slack } = require('../../other/slack/slack');
-const { size } = require('../../lib/size');
 
 /**
- * @사진_첨부
- * @desc 사진을 게시해요
+ * @닉네임_변경
+ * @desc 마이페이지에서 닉네임을 변경해요.
  */
 module.exports = async (req, res) => {
   const userId = req.user.id;
-  const imageUrl = req.imageUrls;
-  const { filmId, studioId } = req.body;
-  if (!filmId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  const { nickname } = req.body;
+
+  if (!userId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
 
   try {
     client = await db.connect(req);
 
-    const isGaro = await size(imageUrl);
-    const photo = await photoDB.addPhoto(client, userId, Number(filmId), Number(studioId), imageUrl, isGaro);
+    const updatedUser = await userDB.updateUserNickname(client, userId, nickname);
+    if (!updatedUser) return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.NO_USER));
 
-    if (!photo) return res.status(sc.NO_CONTENT).send(fail(sc.NO_CONTENT, rm.NO_PHOTO));
-
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_PHOTO_SUCCESS, ));
+    res.status(sc.OK).send(success(sc.OK, rm.UPDATE_ONE_USER_SUCCESS, { updatedUser }));
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

@@ -5,5 +5,6 @@ module.exports = {
   photoDB: require('./photo'),
   photopagingDB: require('./photopaging'),
   curationDB: require('./curation'),
-  likeDB: require('./like')
+  likeDB: require('./like'),
+  bookmarkDB: require('./bookmark')
 };
