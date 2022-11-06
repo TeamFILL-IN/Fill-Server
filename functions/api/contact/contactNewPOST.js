@@ -18,7 +18,9 @@ module.exports = async (req, res) => {
 
   try {
     await mail(category, title, content, nickname);
+    
     res.status(sc.OK).send(success(sc.OK, rm.SEND_OP_SUCCESS));
+    
   } catch (error) {
     slack(req, error.message);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
