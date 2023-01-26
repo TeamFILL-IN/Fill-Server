@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const sendMail = async (category, title, content, nickname) => {
+const sendMail = async (category, content, nickname) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -13,9 +13,9 @@ const sendMail = async (category, title, content, nickname) => {
   });
 
   await transporter.sendMail({
-    from: `"FILL-IN Noti" <${process.env.MAIL_USER}>`,
+    from: process.env.MAIL_USER,
     to: process.env.MAIL_USER,
-    subject: `[${category}] ${title}`,
+    subject: `[FILL-IN Noti] ${category} 제보`,
     html: `
             <h3>FILL-IN에서 새로운 건의/제보가 들어왔어요.</h3> 
             <hr>
