@@ -13,11 +13,11 @@ module.exports = async (req, res) => {
   const category = '제보하기';
   if (!nickname) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
-  const { title, content } = req.body;
-  if (!title || !content) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  const { content } = req.body;
+  if (!content) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   try {
-    await mail(category, title, content, nickname);
+    await mail(category, content, nickname);
     res.status(sc.OK).send(success(sc.OK, rm.SEND_OP_SUCCESS));
   } catch (error) {
     slack(req, error.message);
