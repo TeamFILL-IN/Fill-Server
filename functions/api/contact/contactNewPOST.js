@@ -3,7 +3,7 @@ const { success, fail } = require('../../lib/util');
 const sc = require('../../constants/statusCode');
 const rm = require('../../constants/responseMessage');
 const { slack } = require('../../other/slack/slack');
-const { mail } = require('../../lib/mail');
+const { sendMail } = require('../../lib/mail');
 /**
  * @제보하기
  * @desc 필름이나 스튜디오를 제보해요.
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   if (!content) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   try {
-    await mail(category, content, nickname);
+    await sendMail(category, content, nickname);
     res.status(sc.OK).send(success(sc.OK, rm.SEND_OP_SUCCESS));
   } catch (error) {
     slack(req, error.message);
